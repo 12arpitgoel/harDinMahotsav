@@ -21,7 +21,7 @@ const Home = () => {
 
   return (
     <Fragment>
-      {true ? (
+      {false ? (
         <Loader />
       ) : (
         <Fragment>

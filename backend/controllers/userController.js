@@ -14,7 +14,11 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     crop: "scale",
   });
 
-  const { name, email, password } = req.body;
+  const { name, email, password, role, stringifiedOrganizationDetails } = req.body;
+  let organizationDetails;
+  if(role=="applyOrganization"){
+    organizationDetails=JSON.parse(stringifiedOrganizationDetails);
+  }
 
   const user = await User.create({
     name,
@@ -24,6 +28,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
       public_id: myCloud.public_id,
       url: myCloud.secure_url,
     },
+    role,
+    organizationDetails
   });
 
   sendToken(user, 201, res);

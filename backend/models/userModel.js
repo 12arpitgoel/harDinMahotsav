@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please Enter Your Email"],
-    unique: true,
+    unique: [true, "This email is already registered"],
     validate: [validator.isEmail, "Please Enter a valid Email"],
   },
   password: {
@@ -26,16 +26,29 @@ const userSchema = new mongoose.Schema({
   avatar: {
     public_id: {
       type: String,
-      required: true,
+      required: [true, "Please Enter Your Image"],
     },
     url: {
       type: String,
-      required: true,
+      required: [true, "Please Enter Your Image"],
     },
   },
   role: {
     type: String,
     default: "user",
+  },
+  organizationDetails:{
+    organizationName:{
+      type:String,
+      minLength:[1,"Organization Name is required"],
+      required:(this.role=="applyOrganization" || this.role=="organization")
+    },
+    mobileNo:{
+      type:String,
+      minLength:[10,"Mobile No is Required"],
+      maxLength:10,
+      required:(this.role=="applyOrganization" || this.role=="organization")
+    }
   },
   createdAt: {
     type: Date,
