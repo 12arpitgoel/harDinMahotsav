@@ -19,11 +19,11 @@ app.use(fileUpload());
 
 // Route Imports
 const user = require("./routes/userRoute");
+const event = require("./routes/eventRoute");
 
-app.use("/api/v1", product);
 app.use("/api/v1", user);
-app.use("/api/v1", order);
-app.use("/api/v1", payment);
+app.use("/api/v1", event);
+// app.use("/api/v1", payment);
 
 // app.use(express.static(path.join(__dirname, "../frontend/build")));
 

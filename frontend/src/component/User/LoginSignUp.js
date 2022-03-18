@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
+import {FaMobileAlt} from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login, register } from "../../actions/userAction";
 import { useAlert } from "react-alert";
@@ -29,8 +30,14 @@ const LoginSignUp = ({ history, location }) => {
     email: "",
     password: "",
   });
+  const [isOrganizaton, setIsOrganization] = useState(false);
+  const [organizationDetails, setOrganizationDetails] = useState({
+    organizationName:"",
+    mobileNo:""
+  });
 
   const { name, email, password } = user;
+  const { organizationName, mobileNo} = organizationDetails;
 
   const [avatar, setAvatar] = useState("/Profile.png");
   const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
@@ -49,8 +56,18 @@ const LoginSignUp = ({ history, location }) => {
     myForm.set("email", email);
     myForm.set("password", password);
     myForm.set("avatar", avatar);
+
+    if(isOrganizaton){
+      myForm.set("role", "applyOrganization");
+      myForm.set("stringifiedOrganizationDetails",JSON.stringify(organizationDetails));
+    }
+
     dispatch(register(myForm));
   };
+
+  const registerOrganizationDataChange = (e)=>{
+    setOrganizationDetails({...organizationDetails, [e.target.name]: e.target.value })
+  }
 
   const registerDataChange = (e) => {
     if (e.target.name === "avatar") {
@@ -69,7 +86,7 @@ const LoginSignUp = ({ history, location }) => {
     }
   };
 
-  const redirect = location.search ? location.search.split("=")[1] : "/account";
+  const redirect = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
     if (error) {
@@ -187,6 +204,40 @@ const LoginSignUp = ({ history, location }) => {
                     onChange={registerDataChange}
                   />
                 </div>
+
+                <div className="checkBox">
+                  <input type="checkbox" name="role" value="organization" checked={isOrganizaton} onChange={()=>setIsOrganization(!isOrganizaton)}/> Are you an Organization?
+                </div>
+                {isOrganizaton && 
+                  <Fragment>
+                    <div className="signUpName">
+                      <FaceIcon />
+                      <input
+                        type="text"
+                        placeholder="Company Name"
+                        required
+                        name="organizationName"
+                        value={organizationName}
+                        onChange={registerOrganizationDataChange}
+                      />
+                    </div>
+
+                    <div className="signUpName">
+                      <FaMobileAlt />
+                      <input
+                        type="text"
+                        placeholder="Mobile No"
+                        required
+                        name="mobileNo"
+                        pattern="\d*"
+                        value={mobileNo}
+                        minLength="10"
+                        maxLength="10"
+                        onChange={registerOrganizationDataChange}
+                      />
+                    </div>
+                  </Fragment>
+                }
                 <input type="submit" value="Register" className="signUpBtn" />
               </form>
             </div>

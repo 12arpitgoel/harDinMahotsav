@@ -13,7 +13,7 @@ import UserOptions from "./component/layout/Header/UserOptions";
 import { useSelector } from "react-redux";
 import Profile from "./component/User/Profile";
 import ProtectedRoute from "./component/Route/ProtectedRoute";
-import CreateEvent from "./component/Admin/CreateEvent"
+import CreateEvent from "./component/Admin/CreateEvent";
 import UpdateProfile from "./component/User/UpdateProfile";
 import UpdatePassword from "./component/User/UpdatePassword";
 import ForgotPassword from "./component/User/ForgotPassword";
@@ -58,7 +58,7 @@ function App() {
       <Header />
 
       {isAuthenticated && <UserOptions user={user} />}
-{/* 
+      {/* 
       {stripeApiKey && (
         <Elements stripe={loadStripe(stripeApiKey)}>
           <ProtectedRoute exact path="/process/payment" component={Payment} />
@@ -87,8 +87,13 @@ function App() {
         <Route exact path="/password/reset/:token" component={ResetPassword} />
 
         <Route exact path="/login" component={LoginSignUp} />
-        
-        <Route exact path="/admin/createEvent" component={CreateEvent} />
+
+        <ProtectedRoute
+          exact
+          path="/admin/createEvent"
+          isOrganization={true}
+          component={CreateEvent}
+        />
 
         <ProtectedRoute
           exact
@@ -103,7 +108,6 @@ function App() {
           isAdmin={true}
           component={UpdateUser}
         />
-
 
         <Route
           component={

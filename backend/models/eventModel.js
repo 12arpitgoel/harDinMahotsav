@@ -1,6 +1,6 @@
 const { type } = require("express/lib/response");
 const mongoose = require("mongoose");
-const { v4:uuid } = require("/uuid");
+const { v4:uuid } = require("uuid");
 
 const eventSchema = mongoose.Schema({
   name: {
@@ -60,7 +60,7 @@ const eventSchema = mongoose.Schema({
               required: true,
             },
         },
-        category:{
+        submissionType:{
             type:String,
             required:true // video, images, text
         },
