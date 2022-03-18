@@ -13,7 +13,6 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "./Sidebar";
 import Modal from 'react-modal';
 import CompetetionModal from "./CompetetionModal";
-import useModal from './useModal';
 import CompetitionPreviewCard from './CompetitionPreviewCard'
 
 //import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
@@ -31,7 +30,6 @@ const CreateEvent = ({ history }) => {
   const [Stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
-  const {isShowing, toggle} = useModal();
 
   
 

@@ -88,7 +88,7 @@ function App() {
 
         <Route exact path="/login" component={LoginSignUp} />
 
-        <ProtectedRoute
+        <Route
           exact
           path="/admin/createEvent"
           isOrganization={true}
