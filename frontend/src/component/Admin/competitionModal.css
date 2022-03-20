@@ -1,0 +1,53 @@
+
+
+
+.heading{
+    color: rgba(0, 0, 0, 0.733);
+    font: 300 2rem "Roboto";
+    text-align: center;
+}
+.competitionInput{
+    border: 1px solid rgba(0, 0, 0, 0.267);
+  border-radius: 4px;
+}
+.box{
+    padding: 2rem;
+}
+
+.icons{
+    padding-right: 2vw;
+    padding-bottom: 20px;
+}
+
+.icon{
+    padding-right: 2vw;
+}
+
+.box input, textarea{
+    
+    margin: .9vw 0 ;
+    border:0;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+#eventMedia {
+    height: 5%;
+}
+
+/* button{
+    border: none;
+    background-color: tomato;
+    color: white;
+    padding: 0.7em 1.7em;
+    font-size: 13px;
+    border-radius: 0.5em;
+   } */
+.addButton{
+    margin-left: 70%;
+    margin-right: 5%;
+}
+
+#footer{
+    padding: 15px;
+}

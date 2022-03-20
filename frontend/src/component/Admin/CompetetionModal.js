@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import DescriptionIcon from "@material-ui/icons/Description";
 import StorageIcon from "@material-ui/icons/Storage";
+import "./competitionModal.css";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
+
+
 
 const customStyles = {
   content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
+    
+   
     width: '50%',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)'
+    left:'24%'
+     //marginRight: '-50%',
+    // transform: 'translate(-50%, -50%)',
   }
 };
 
@@ -86,7 +88,7 @@ function CompetetionModal(props) {
   // handle click event of the Remove button
 
   return (
-    <div>
+    <div >
       <Modal
         isOpen={props.IsModalOpened}
         onAfterOpen={e => afterOpenModal(e)}
@@ -96,11 +98,13 @@ function CompetetionModal(props) {
         <form
         onSubmit={handleAddClick}
         >
-          <h2>Create Competetion</h2>
+          <div className='competition'>
+          <h2 className='heading'>Create Competetion</h2>
           <div className="box">
             <div>
-              <SpellcheckIcon />
+              <SpellcheckIcon className='icon' />
               <input
+              className='competitionInput'
                 type="text"
                 required
                 name="name"
@@ -111,26 +115,28 @@ function CompetetionModal(props) {
               />
             </div>
             <div>
-              <DescriptionIcon />
+              <DescriptionIcon className='icon'/>
               <textarea
+              className='competitionInput'
                 placeholder="Event Description"
                 name="description"
                 value={competitionData.description}
                 onChange={e => handleInputChange(e)}
-                cols="30"
-                rows="1"
+                cols="40"
+                rows="2"
                 required
               ></textarea>
             </div>
             <div>
-              <DescriptionIcon />
+              <DescriptionIcon className='icon'/>
               <textarea
+              className='competitionInput'
                 placeholder="Competetion Guidelines"
                 name="guidelines"
                 value={competitionData.guidelines[0]}
                 onChange={e => handleInputChange(e)}
-                cols="30"
-                rows="1"
+                cols="40"
+                rows="2"
                 required
               ></textarea>
             </div>
@@ -167,7 +173,7 @@ function CompetetionModal(props) {
               }
             </div>  }
             <div>
-              <p >Submission Type</p>
+              <p id="footer" >Submission Type</p>
               <select required value={competitionData.submissionType} name="submissionType" onChange={(e) => handleInputChange(e)}>
                 <option value="" >Choose Category</option>
                 {categories.map((cate) => (
@@ -183,9 +189,11 @@ function CompetetionModal(props) {
                 onClick={() => handleRemoveClick(i)}>Remove</button>}
               {inputList.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
             </div> */}
-            <button type='submit'>Add</button>
-            <button onClick={e => onModalClose(e)}>close</button>
+            <button className='addButton' type='submit'>Add</button>
+            <button className='mr10' onClick={e => onModalClose(e)}>close</button>
           </div>
+          </div>
+          
 
 
         </form>

@@ -63,7 +63,6 @@ const CreateEvent = ({ history }) => {
   const [listIndex,setListIndex] = useState(-1);
   const [data,setData]=useState({});
   function openFromParent(i) {
-    
     setListIndex(i);
     if(i>=0){
       setData(inputList[i]);
@@ -168,9 +167,9 @@ const CreateEvent = ({ history }) => {
             {imagesPreview.length > 0 ? <div id="createProductFormImage">
               {imagesPreview.map((image, index) => (
                 image.includes("image")?
-                <img key={index} src={image} alt="Product Preview" />
+                <img key={index} src={image} style={{height:"80px",width:"110px"}} alt="Product Preview" />
                 :<video key={index} controls>
-                    <source src={image} type="video/mp4"/>
+                    <source src={image} style={{height:"80px",width:"110px"}} type="video/mp4"/>
                   </video>
               ))}
             </div> :<></>}
@@ -193,6 +192,7 @@ const CreateEvent = ({ history }) => {
             {inputList.length > 0 ? <div id="createProductFormImage">
               {inputList.map((input, index) => (
                 <CompetitionPreviewCard
+                data = {input}
                 index={index}
                 removeCard={cardRemove}
                 openFromParent={openFromParent}/>
