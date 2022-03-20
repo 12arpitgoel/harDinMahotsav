@@ -1,4 +1,4 @@
-import React ,{useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import DescriptionIcon from "@material-ui/icons/Description";
 import StorageIcon from "@material-ui/icons/Storage";
@@ -24,24 +24,44 @@ function CompetetionModal(props) {
     "Images",
     "Text"
   ];
-  const competetionFields = {
-    competetionName:"",
-    competetionDescription:"",
-    competetionGuidelines:"",
-    competetionMedia:{},
-    competetionLastSubmissionDate:"",
-    competetionSubmissionType:"" ,
+  const createImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+    const name = e.target.name
+    const arr = []
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          arr.push(reader.result);
+          setCompetetionData({
+            ...competitionData,
+            [name]: arr
+          });
+        }
+
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  const competitionFields = {
+    competitionName: "",
+    competitionDescription: "",
+    competitionGuidelines: "",
+    competitionMedia: [],
+    competitionLastSubmissionDate: "",
+    competitionSubmissionType: "Choose Category",
   }
-
-  useEffect(()=>{
+  useEffect(() => {
     setCompetetionData({
-      ...competetionFields,
+      ...competitionFields,
       ...props.data
-    })
-  },[props.data])
+    });
+  }, [props.data,])
 
-  function handleAddClick(e){
-    props.handleCompetition(e,{...competetionData},props.index);
+  function handleAddClick(e) {
+    e.preventDefault();
+    props.handleCompetition(e, { ...competitionData }, props.index);
   }
   function afterOpenModal(e) {
     props.onAfterOpen(e, 'After Modal Opened');
@@ -51,19 +71,19 @@ function CompetetionModal(props) {
     let data = { name: 'example', type: 'closed from child' };
     props.onCloseModal(event, data);
   }
-   const [competetionData, setCompetetionData] = useState(competetionFields);
-   //const [openedByCard,setOpenedByCard] = useState(Object.keys(props.data).length === 0?false:true);
+  const [competitionData, setCompetetionData] = useState(competitionFields);
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name,value);
-     setCompetetionData({
-      ...competetionData,
-      [name]:value
-     });
+    console.log(name, value);
+    setCompetetionData({
+      ...competitionData,
+      [name]: value
+    });
   };
- 
+
   // handle click event of the Remove button
-  
+
   return (
     <div>
       <Modal
@@ -72,79 +92,105 @@ function CompetetionModal(props) {
         style={customStyles}
         ariaHideApp={false}
       >
-        <h2>Create Competetion</h2>
+        <form
+        onSubmit={handleAddClick}
+        >
+          <h2>Create Competetion</h2>
           <div className="box">
             <div>
               <SpellcheckIcon />
               <input
                 type="text"
                 required
-                name="competetionName"
+                name="competitionName"
                 placeholder="Enter Competetion Name"
-                 value={competetionData.competetionName}
-                 onChange={e => handleInputChange(e)}
+                value={competitionData.competitionName}
+                onChange={e => handleInputChange(e)}
+
               />
             </div>
             <div>
               <DescriptionIcon />
               <textarea
                 placeholder="Event Description"
-                name="competetionDescription"
-                value={competetionData.competetionDescription}
-                 onChange={e => handleInputChange(e )}
+                name="competitionDescription"
+                value={competitionData.competitionDescription}
+                onChange={e => handleInputChange(e)}
                 cols="30"
                 rows="1"
+                required
               ></textarea>
             </div>
             <div>
               <DescriptionIcon />
               <textarea
                 placeholder="Competetion Guidelines"
-                name="competetionGuidelines"
-                value={competetionData.competetionGuidelines}
+                name="competitionGuidelines"
+                value={competitionData.competitionGuidelines}
                 onChange={e => handleInputChange(e)}
                 cols="30"
                 rows="1"
+                required
               ></textarea>
             </div>
             <div>
-              <p style={{font: "400 1vmax cursive"}}>Last Submission Date:</p>
-              <input type="Date" id="eventDate"></input>
+              <p style={{ font: "400 1vmax cursive" }}>Last Submission Date:</p>
+              <input name="competitionLastSubmissionDate"
+                value={competitionData.competitionLastSubmissionDate}
+                onChange={e => handleInputChange(e)}
+                type="Date"
+                required
+                id="eventDate">
+              </input>
             </div>
-            <div id = "eventMedia">
-            <p style={{font: "400 1vmax cursive"}}>Media :</p>
+            <div id="eventMedia">
+              <p style={{ font: "400 1vmax cursive" }}>Media :</p>
               <div id="createProductFormFile">
                 <input
                   type="file"
-                  name="avatar"
+                  name="competitionMedia"
                   accept="image/*,video/*"
-                  // onChange={createProductImagesChange}
+                  onChange={createImagesChange}
+                  required = {competitionData.competitionMedia.length > 0 ? "": "required"} 
                   multiple
                 />
-              </div> 
+              </div>
             </div>
+            {competitionData.competitionMedia.length > 0 ? <div id="createProductFormImage">
+              {competitionData.competitionMedia.map((image, index) => (
+                image.includes("image") ?
+                  <img key={index} src={image} alt="Product Preview" />
+                  : <video key={index} controls>
+                    <source src={image} type="video/mp4" />
+                  </video>
+              ))}
+            </div> : <></>}
             <div>
               <p >Submission Type</p>
-              <select onChange={(e) => setCategory(e.target.value)}>
-                <option value="">Choose Category</option>
+              <select required value={competitionData.competitionSubmissionType} name="competitionSubmissionType" onChange={(e) => handleInputChange(e)}>
+                <option value="" >Choose Category</option>
                 {categories.map((cate) => (
                   <option key={cate} value={cate}>
                     {cate}
                   </option>
                 ))}
               </select>
-            </div> 
+            </div>
             {/* <div className="btn-box">
               {inputList.length !== 1 && <button
                 className="mr10"
                 onClick={() => handleRemoveClick(i)}>Remove</button>}
               {inputList.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
             </div> */}
-              <button onClick={e => handleAddClick(e)}>Add</button>
-              <button onClick={e => onModalClose(e)}>close</button>
+            <button type='submit'>Add</button>
+            <button onClick={e => onModalClose(e)}>close</button>
           </div>
-          
-        
+
+
+        </form>
+
+
+
       </Modal>
     </div>
   );

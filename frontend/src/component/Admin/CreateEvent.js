@@ -14,6 +14,7 @@ import SideBar from "./Sidebar";
 import Modal from 'react-modal';
 import CompetetionModal from "./CompetetionModal";
 import CompetitionPreviewCard from './CompetitionPreviewCard'
+import { clearErrors, login, register } from "../../actions/userAction";
 
 //import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
 
@@ -24,42 +25,18 @@ const CreateEvent = ({ history }) => {
   //const { loading, error, success } = useSelector((state) => state.newProduct);
 
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
+  const [eventDate,setEventDate] = useState("");
   const [description, setDescription] = useState("");
-  
-  const [Stock, setStock] = useState(0);
-  const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
-
-  
-
-  // useEffect(() => {
-  //   if (error) {
-  //     alert.error(error);
-  //    // dispatch(clearErrors());
-  //   }
-
-  //   if (success) {
-  //     alert.success("Product Created Successfully");
-  //     history.push("/admin/dashboard");
-  //    // dispatch({ type: NEW_PRODUCT_RESET });
-  //   }
-  // }, [dispatch, alert, error, history, success]);
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
-
     const myForm = new FormData();
-
     myForm.set("name", name);
-    myForm.set("price", price);
     myForm.set("description", description);
-   // myForm.set("category", category);
-    myForm.set("Stock", Stock);
-
-    images.forEach((image) => {
-      myForm.append("images", image);
-    });
+    myForm.set("competition",inputList);
+    myForm.set("media",imagesPreview[0]);
+    myForm.set("eventDate",eventDate);  
    // dispatch(createProduct(myForm));
   };
   
@@ -74,16 +51,12 @@ const CreateEvent = ({ history }) => {
     
     setListIndex(i);
     if(i>=0){
-      console.log("hello1");
       setData(inputList[i]);
     }
     else{
-      console.log("heelo2");
       setData({});
     }
-    
-    setIsOpen(true);
-   
+    setIsOpen(true); 
   }
 
   function handleCloseModal(event, data) {
@@ -96,8 +69,6 @@ const CreateEvent = ({ history }) => {
   }
   const createProductImagesChange = (e) => {
     const files = Array.from(e.target.files);
-    
-    setImages([]);
     setImagesPreview([]);
 
     files.forEach((file) => {
@@ -106,7 +77,6 @@ const CreateEvent = ({ history }) => {
       reader.onload = () => {
         if (reader.readyState === 2) {
           setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
         }
       };
       
@@ -114,32 +84,8 @@ const CreateEvent = ({ history }) => {
       console.log(imagesPreview)
     });
   };
-    const customStyles = {
-      content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-      },
-    };
   const [inputList, setInputList] = useState([]);
-  // const handleInputChange = (e, index) => {
-  //   const { name, value } = e.target;
-  //   const list = [...inputList];
-  //   list[index][name] = value;
-  //   setInputList(list);
-  // };
- 
-  // // handle click event of the Remove button
-  // const handleRemoveClick = index => {
-  //   const list = [...inputList];
-  //   list.splice(index, 1);
-  //   setInputList(list);
-  // };
- 
-  // handle click event of the Add button
+
   const handleAddClickCompetition = (e,data,i) => {
     if(i<0){
       setInputList([...inputList, data]);
@@ -148,8 +94,7 @@ const CreateEvent = ({ history }) => {
         return index==i ? data : competition;
       });
       setInputList(competitionList);
-    }
-    
+    }  
     setIsOpen(false);
   };
   const cardRemove =(i) =>{
@@ -187,6 +132,7 @@ const CreateEvent = ({ history }) => {
                 onChange={(e) => setDescription(e.target.value)}
                 cols="30"
                 rows="1"
+                required
               ></textarea>
             </div>
             <div id = "eventMedia">
@@ -197,6 +143,7 @@ const CreateEvent = ({ history }) => {
                   name="avatar"
                   accept="image/*,video/*"
                   onChange={createProductImagesChange}
+                  required
                   multiple
                 />
               </div>
@@ -213,7 +160,7 @@ const CreateEvent = ({ history }) => {
             </div> :<></>}
             <div>
               <p style={{font: "400 1vmax cursive"}}>Event Date:</p>
-              <input type="Date" id="eventDate"></input>
+              <input type="Date" id="eventDate" required  onChange={(e) => setEventDate(e.target.value)}></input>
             </div>
             <div>
               <p style={{font: "400 1vmax cursive"}}>Competitions:</p>
