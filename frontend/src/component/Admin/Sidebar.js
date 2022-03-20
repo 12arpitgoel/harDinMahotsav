@@ -35,17 +35,11 @@ const Sidebar = () => {
               <TreeItem nodeId="2" label="All" icon={<PostAddIcon />} />
             </Link>
 
-            <Link to="/organization/event">
+            <Link to="/organization/createEvent">
               <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
             </Link>
           </TreeItem>
         </TreeView>
-      </Link>
-      <Link to="/organization/orders">
-        <p>
-          <ListAltIcon />
-          Orders
-        </p>
       </Link>
       {
         user && user.role=="admin" &&

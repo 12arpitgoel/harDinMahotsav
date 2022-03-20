@@ -33,7 +33,7 @@ const UserOptions = ({ user }) => {
   }
 
   function dashboard() {
-    history.push("/organization/dashboard");
+    history.push("/organization/createEvent");
   }
 
   function account() {
