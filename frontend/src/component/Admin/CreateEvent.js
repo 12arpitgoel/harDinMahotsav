@@ -14,30 +14,45 @@ import SideBar from "./Sidebar";
 import Modal from 'react-modal';
 import CompetetionModal from "./CompetetionModal";
 import CompetitionPreviewCard from './CompetitionPreviewCard'
-import { clearErrors, login, register } from "../../actions/userAction";
+import { clearErrors, createEvent } from "../../actions/eventAction";
 
-//import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
+
+import { NEW_EVENT_RESET } from "../../constants/eventConstants";
 
 const CreateEvent = ({ history }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
 
-  //const { loading, error, success } = useSelector((state) => state.newProduct);
+  const { loading, error, success } = useSelector((state) => state.newEvent);
 
   const [name, setName] = useState("");
   const [eventDate,setEventDate] = useState("");
   const [description, setDescription] = useState("");
   const [imagesPreview, setImagesPreview] = useState([]);
+  
+  
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+
+    if (success) {
+      alert.success("Product Created Successfully");
+      // history.push("/admin/dashboard");
+      dispatch({ type: NEW_EVENT_RESET });
+    }
+  }, [dispatch, alert, error, success]);
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
     const myForm = new FormData();
     myForm.set("name", name);
     myForm.set("description", description);
-    myForm.set("competition",inputList);
+    myForm.set("competitions",JSON.stringify(inputList));
     myForm.set("media",imagesPreview[0]);
     myForm.set("eventDate",eventDate);  
-   // dispatch(createProduct(myForm));
+   dispatch(createEvent(myForm));
   };
   
   const modalData = {
@@ -189,8 +204,9 @@ const CreateEvent = ({ history }) => {
              // disabled={loading ? true : false}
             >
               Create
-            </Button>  
-            <CompetetionModal   
+            </Button>    
+          </form>
+          <CompetetionModal   
               data={data}
               index={listIndex}
               handleCompetition={handleAddClickCompetition}
@@ -198,9 +214,6 @@ const CreateEvent = ({ history }) => {
                onCloseModal={handleCloseModal}
                onAfterOpen={handleAfterOpen}
               />
-               
-            
-          </form>
         </div>
       </div>
     </Fragment>

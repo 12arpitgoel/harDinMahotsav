@@ -27,30 +27,29 @@ function CompetetionModal(props) {
   const createImagesChange = (e) => {
     const files = Array.from(e.target.files);
     const name = e.target.name
+    console.log(name,files);
     const arr = []
-    files.forEach((file) => {
+    files.forEach((file,index) => {
       const reader = new FileReader();
-
       reader.onload = () => {
         if (reader.readyState === 2) {
-          arr.push(reader.result);
+          
           setCompetetionData({
             ...competitionData,
-            [name]: arr
+            [name]: reader.result
           });
         }
-
       };
       reader.readAsDataURL(file);
     });
   };
   const competitionFields = {
-    competitionName: "",
-    competitionDescription: "",
-    competitionGuidelines: "",
-    competitionMedia: [],
-    competitionLastSubmissionDate: "",
-    competitionSubmissionType: "Choose Category",
+    name: "",
+    description: "",
+    guidelines: [""],
+    media: " ",
+    lastSubmissionDate: "",
+    submissionType: "Choose Category",
   }
   useEffect(() => {
     setCompetetionData({
@@ -75,10 +74,12 @@ function CompetetionModal(props) {
   
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
+    
+    const a = [value];
+    
     setCompetetionData({
       ...competitionData,
-      [name]: value
+      [name]: name=="guidelines" ? a:value
     });
   };
 
@@ -102,9 +103,9 @@ function CompetetionModal(props) {
               <input
                 type="text"
                 required
-                name="competitionName"
+                name="name"
                 placeholder="Enter Competetion Name"
-                value={competitionData.competitionName}
+                value={competitionData.name}
                 onChange={e => handleInputChange(e)}
 
               />
@@ -113,8 +114,8 @@ function CompetetionModal(props) {
               <DescriptionIcon />
               <textarea
                 placeholder="Event Description"
-                name="competitionDescription"
-                value={competitionData.competitionDescription}
+                name="description"
+                value={competitionData.description}
                 onChange={e => handleInputChange(e)}
                 cols="30"
                 rows="1"
@@ -125,8 +126,8 @@ function CompetetionModal(props) {
               <DescriptionIcon />
               <textarea
                 placeholder="Competetion Guidelines"
-                name="competitionGuidelines"
-                value={competitionData.competitionGuidelines}
+                name="guidelines"
+                value={competitionData.guidelines[0]}
                 onChange={e => handleInputChange(e)}
                 cols="30"
                 rows="1"
@@ -135,8 +136,8 @@ function CompetetionModal(props) {
             </div>
             <div>
               <p style={{ font: "400 1vmax cursive" }}>Last Submission Date:</p>
-              <input name="competitionLastSubmissionDate"
-                value={competitionData.competitionLastSubmissionDate}
+              <input name="lastSubmissionDate"
+                value={competitionData.lastSubmissionDate}
                 onChange={e => handleInputChange(e)}
                 type="Date"
                 required
@@ -148,26 +149,26 @@ function CompetetionModal(props) {
               <div id="createProductFormFile">
                 <input
                   type="file"
-                  name="competitionMedia"
+                  name="media"
                   accept="image/*,video/*"
                   onChange={createImagesChange}
-                  required = {competitionData.competitionMedia.length > 0 ? "": "required"} 
-                  multiple
+                  required = {competitionData.media==" "? "required" : " "} 
+                  
                 />
               </div>
             </div>
-            {competitionData.competitionMedia.length > 0 ? <div id="createProductFormImage">
-              {competitionData.competitionMedia.map((image, index) => (
-                image.includes("image") ?
-                  <img key={index} src={image} alt="Product Preview" />
-                  : <video key={index} controls>
-                    <source src={image} type="video/mp4" />
+            {competitionData.media == " "  ?<></>: <div id="createProductFormImage">
+              
+                {competitionData.media.includes("image") ?
+                  <img src={competitionData.media} alt="Product Preview" />
+                  : <video  controls>
+                    <source src={competitionData.media} type="video/mp4" />
                   </video>
-              ))}
-            </div> : <></>}
+              }
+            </div>  }
             <div>
               <p >Submission Type</p>
-              <select required value={competitionData.competitionSubmissionType} name="competitionSubmissionType" onChange={(e) => handleInputChange(e)}>
+              <select required value={competitionData.submissionType} name="submissionType" onChange={(e) => handleInputChange(e)}>
                 <option value="" >Choose Category</option>
                 {categories.map((cate) => (
                   <option key={cate} value={cate}>

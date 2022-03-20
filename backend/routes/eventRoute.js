@@ -10,7 +10,7 @@ const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.route("/admin/event/new").post(isAuthenticatedUser,authorizeRoles("admin"),createEvent);
+router.route("/admin/event/new").post(isAuthenticatedUser,createEvent);
 
 router.route("/events").get(isAuthenticatedUser,getEvents);
 

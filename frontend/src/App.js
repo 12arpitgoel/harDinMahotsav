@@ -92,10 +92,10 @@ function App() {
 
         <Route exact path="/login" component={LoginSignUp} />
 
-        <Route
+        <ProtectedRoute
           exact
           path="/organization/createEvent"
-          isOrganization={true}
+          // isOrganization={true}
           component={CreateEvent}
         />
 

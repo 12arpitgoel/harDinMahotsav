@@ -7,17 +7,15 @@ const ApiFeatures = require("../utils/apifeatures");
 
 exports.createEvent = catchAsyncErrors(async (req,res,next)=>{
 
-  const { name, description, media, eventDate, competitions } = req.body;
-
+  const { name, description, media, eventDate,  competitions:stringifyCompetitions } = req.body;
+  let competitions = JSON.parse(stringifyCompetitions) 
   const myCloud = await cloudinary.v2.uploader.upload(media, {
     folder: "event",
   });
-
   for (let i = 0; i < competitions.length; i++) {
     const result = await cloudinary.v2.uploader.upload(competitions[i].media, {
       folder: "event",
     });
-
     competitions[i].media={
       public_id: result.public_id,
       url: result.secure_url,
@@ -28,16 +26,18 @@ exports.createEvent = catchAsyncErrors(async (req,res,next)=>{
 
 
   const event = await Event.create({
+
     name,
     description,
     media: {
-      public_id: myCloud.result.public_id,
+      public_id: myCloud.public_id,
       url: myCloud.secure_url,
     },
     eventDate,
     competitions,
     user:req.user.id
   });
+  console.log(event)
 
   res.status(201).json({
     success: true,
