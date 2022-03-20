@@ -95,7 +95,7 @@ function App() {
         <ProtectedRoute
           exact
           path="/organization/createEvent"
-          // isOrganization={true}
+          isOrganization={true}
           component={CreateEvent}
         />
 
