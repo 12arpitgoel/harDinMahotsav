@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
+import "./dashboard.css";
 import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -56,7 +57,7 @@ const UsersList = ({ history }) => {
       field: "email",
       headerName: "Email",
       minWidth: 200,
-      flex: 1,
+      flex: 0.8,
     },
     {
       field: "name",
@@ -70,17 +71,25 @@ const UsersList = ({ history }) => {
       headerName: "Role",
       type: "number",
       minWidth: 150,
-      flex: 0.3,
+      flex: 0.4,
       cellClassName: (params) => {
-        return params.getValue(params.id, "role") === "admin"
-          ? "greenColor"
-          : "redColor";
+        let role=params.getValue(params.id, "role");
+        switch(role){
+          case "admin":
+            return "greenColor";
+          case "organization":
+            return "blueColor"
+          case "applyOrganization":
+            return "redColor"
+          default:
+            return "";
+        }
       },
     },
 
     {
       field: "actions",
-      flex: 0.3,
+      flex: 0.4,
       headerName: "Actions",
       minWidth: 150,
       type: "number",
@@ -125,15 +134,15 @@ const UsersList = ({ history }) => {
         <SideBar />
         <div className="productListContainer">
           <h1 id="productListHeading">ALL USERS</h1>
-
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="productListTable"
-            autoHeight
-          />
+          
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={10}
+              disableSelectionOnClick
+              className="productListTable"
+              autoHeight
+            />
         </div>
       </div>
     </Fragment>

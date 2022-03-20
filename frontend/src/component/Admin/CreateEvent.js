@@ -80,7 +80,7 @@ const CreateEvent = ({ history }) => {
       <MetaData title="Create Product" />
       <div className="dashboard">
         <SideBar />
-        <div className="CreateEventContainer">
+        <div className="dashbaoardContainer">
           <form
             className="createProductForm"
             encType="multipart/form-data"

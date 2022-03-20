@@ -11,14 +11,16 @@ import ListAltIcon from "@material-ui/icons/ListAlt";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import RateReviewIcon from "@material-ui/icons/RateReview";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
+  const { loading, isAuthenticated, user } = useSelector((state) => state.user);
   return (
     <div className="sidebar">
       <Link to="/">
         <img src={logo} alt="Ecommerce" />
       </Link>
-      <Link to="/admin/dashboard">
+      <Link to="/organization/dashboard">
         <p>
           <DashboardIcon /> Dashboard
         </p>
@@ -28,29 +30,33 @@ const Sidebar = () => {
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ImportExportIcon />}
         >
-          <TreeItem nodeId="1" label="Products">
-            <Link to="/admin/products">
+          <TreeItem nodeId="1" label="Events">
+            <Link to="/organization/events">
               <TreeItem nodeId="2" label="All" icon={<PostAddIcon />} />
             </Link>
 
-            <Link to="/admin/product">
+            <Link to="/organization/event">
               <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
             </Link>
           </TreeItem>
         </TreeView>
       </Link>
-      <Link to="/admin/orders">
+      <Link to="/organization/orders">
         <p>
           <ListAltIcon />
           Orders
         </p>
       </Link>
-      <Link to="/admin/users">
-        <p>
-          <PeopleIcon /> Users
-        </p>
-      </Link>
-      <Link to="/admin/reviews">
+      {
+        user && user.role=="admin" &&
+      
+        <Link to="/admin/users">
+          <p>
+            <PeopleIcon /> Users
+          </p>
+        </Link>
+      }
+      <Link to="/organization/reviews">
         <p>
           <RateReviewIcon />
           Reviews

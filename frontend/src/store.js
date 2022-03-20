@@ -11,6 +11,12 @@ import {
   userReducer,
 } from "./reducers/userReducer";
 
+import {
+  newEventReducer,
+  eventsReducer,
+  eventDetailsReducer
+} from "./reducers/eventReducer";
+
 
 const reducer = combineReducers({
   user: userReducer,
@@ -18,6 +24,9 @@ const reducer = combineReducers({
   forgotPassword: forgotPasswordReducer,
   allUsers: allUsersReducer,
   userDetails: userDetailsReducer,
+  newEvent:newEventReducer,
+  events:eventsReducer,
+  eventDetails:eventDetailsReducer
 });
 
 let initialState = {

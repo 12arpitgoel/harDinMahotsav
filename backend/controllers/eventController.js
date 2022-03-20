@@ -73,7 +73,7 @@ exports.getEvents = catchAsyncErrors(async (req,res,next)=>{
 
 // Update Event -- Admin
 
-exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
+exports.updateEvent = catchAsyncErrors(async (req, res, next) => {
   let event = await Event.findById(req.params.id);
 
   if (!event) {
@@ -84,16 +84,16 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
 
   if (media !== undefined) {
     // Deleting Images From Cloudinary
-    for (let i = 0; i < product.images.length; i++) {
-      await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+    for (let i = 0; i < event.images.length; i++) {
+      await cloudinary.v2.uploader.destroy(event.images[i].public_id);
     }
     req.body.images = imagesLinks;
   }
 
   if (media !== undefined) {
     // Deleting Images From Cloudinary
-    for (let i = 0; i < product.images.length; i++) {
-      await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+    for (let i = 0; i < event.images.length; i++) {
+      await cloudinary.v2.uploader.destroy(event.images[i].public_id);
     }
     req.body.images = imagesLinks;
   }
@@ -120,11 +120,25 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
 
   
 
-  product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+  event = await Event.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
     // useFindAndModify: false,
   });
+
+  res.status(200).json({
+    success: true,
+    event,
+  });
+});
+
+// Get Event Details
+exports.getEventDetails = catchAsyncErrors(async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
+
+  if (!event) {
+    return next(new ErrorHander("Event not found", 404));
+  }
 
   res.status(200).json({
     success: true,

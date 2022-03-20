@@ -25,11 +25,11 @@ const Home = () => {
         <Loader />
       ) : (
         <Fragment>
-          <MetaData title="ECOMMERCE" />
+          <MetaData title="HarDinMahotsav" />
 
           <div className="banner">
-            <p>Welcome to Ecommerce</p>
-            <h1>FIND AMAZING PRODUCTS BELOW</h1>
+            <p>Welcome to Mahotsav</p>
+            <h1>Explore your Culture Here</h1>
 
             <a href="#container">
               <button>
@@ -38,9 +38,9 @@ const Home = () => {
             </a>
           </div>
 
-          <h2 className="homeHeading">Featured Products</h2>
+          {/*<h2 className="homeHeading">Featured Products</h2>
 
-          {/* <div className="container" id="container">
+           <div className="container" id="container">
             {products &&
               products.map((product) => (
                 <ProductCard key={product._id} product={product} />

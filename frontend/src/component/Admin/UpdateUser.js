@@ -14,6 +14,7 @@ import {
   clearErrors,
 } from "../../actions/userAction";
 import Loader from "../layout/Loader/Loader";
+import "./newProduct.css";
 
 const UpdateUser = ({ history, match }) => {
   const dispatch = useDispatch();
@@ -112,6 +113,8 @@ const UpdateUser = ({ history, match }) => {
                   <option value="">Choose Role</option>
                   <option value="admin">Admin</option>
                   <option value="user">User</option>
+                  <option value="applyOrganization">applyOrganization</option>
+                  <option value="organization">organization</option>
                 </select>
               </div>
 

@@ -44,7 +44,11 @@
 }
 
 .MuiDataGrid-columnHeader div {
-  color: rgb(255, 255, 255);
+  /* color: rgb(255, 255, 255); */
+}
+
+.blueColor{
+  color: blue;
 }
 
 @media screen and (max-width: 600px) {

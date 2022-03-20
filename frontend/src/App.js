@@ -6,6 +6,8 @@ import WebFont from "webfontloader";
 import React from "react";
 import Footer from "./component/layout/Footer/Footer";
 import Home from "./component/Home/Home";
+import Events from "./component/Event/Events";
+import EventDetails from "./component/Event/EventDetails";
 import LoginSignUp from "./component/User/LoginSignUp";
 import store from "./store";
 import { loadUser } from "./actions/userAction";
@@ -48,7 +50,7 @@ function App() {
 
     store.dispatch(loadUser());
 
-    getStripeApiKey();
+    // getStripeApiKey();
   }, []);
 
   window.addEventListener("contextmenu", (e) => e.preventDefault());
@@ -67,10 +69,12 @@ function App() {
 
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/events" component={Events} />
+        <Route exact path="/event/:id" component={EventDetails} />
 
-        {/* <Route exact path="/contact" component={Contact} />
+        <Route exact path="/contact" component={Contact} />
 
-        <Route exact path="/about" component={About} /> */}
+        <Route exact path="/about" component={About} />
 
         <ProtectedRoute exact path="/account" component={Profile} />
 
@@ -90,7 +94,7 @@ function App() {
 
         <ProtectedRoute
           exact
-          path="/admin/createEvent"
+          path="/organization/createEvent"
           isOrganization={true}
           component={CreateEvent}
         />
