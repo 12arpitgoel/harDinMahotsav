@@ -47,7 +47,7 @@ exports.createEvent = catchAsyncErrors(async (req,res,next)=>{
 });
 
 exports.getEvents = catchAsyncErrors(async (req,res,next)=>{
-  const resultPerPage = 10;
+  const resultPerPage = 100;
   const eventsCount = await Event.countDocuments();
 
   const apiFeature = new ApiFeatures(Event.find(), req.query)

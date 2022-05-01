@@ -28,6 +28,7 @@ import UsersList from "./component/Admin/UsersList";
 import UpdateUser from "./component/Admin/UpdateUser";
 import Contact from "./component/layout/Contact/Contact";
 import About from "./component/layout/About/About";
+import Community from "./component/Community/Community";
 import NotFound from "./component/layout/Not Found/NotFound";
 
 function App() {
@@ -75,6 +76,8 @@ function App() {
         <Route exact path="/contact" component={Contact} />
 
         <Route exact path="/about" component={About} />
+
+        <Route exact path="/community" component={Community} />
 
         <ProtectedRoute exact path="/account" component={Profile} />
 
