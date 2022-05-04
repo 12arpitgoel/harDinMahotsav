@@ -30,6 +30,7 @@ import Contact from "./component/layout/Contact/Contact";
 import About from "./component/layout/About/About";
 import Community from "./component/Community/Community";
 import NotFound from "./component/layout/Not Found/NotFound";
+import Submission from "./component/Submission/Submission";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -78,6 +79,8 @@ function App() {
         <Route exact path="/about" component={About} />
 
         <Route exact path="/community" component={Community} />
+
+        <Route exact path="/submission" component={Submission} />
 
         <ProtectedRoute exact path="/account" component={Profile} />
 

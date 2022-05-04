@@ -50,8 +50,8 @@ const Community = ()=> {
         <div style={{ position: "fixed", top: "1%", right: "3%" }} >
           <NewsFeed />
         </div>
-      </div>
-    </>
+        </div>
+    </> 
   );
 }
 
