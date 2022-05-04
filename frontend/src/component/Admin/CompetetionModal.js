@@ -48,7 +48,7 @@ function CompetetionModal(props) {
   const competitionFields = {
     name: "",
     description: "",
-    guidelines: [""],
+    guidelines: "",
     media: " ",
     lastSubmissionDate: "",
     submissionType: "Choose Category",
@@ -77,11 +77,9 @@ function CompetetionModal(props) {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     
-    const a = [value];
-    
     setCompetetionData({
       ...competitionData,
-      [name]: name=="guidelines" ? a:value
+      [name]: value
     });
   };
 
@@ -133,7 +131,7 @@ function CompetetionModal(props) {
               className='competitionInput'
                 placeholder="Competetion Guidelines"
                 name="guidelines"
-                value={competitionData.guidelines[0]}
+                value={competitionData.guidelines}
                 onChange={e => handleInputChange(e)}
                 cols="40"
                 rows="2"

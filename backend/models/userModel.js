@@ -54,6 +54,13 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  visited:[
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "Event",
+      unique:true
+    }
+  ],
 
   resetPasswordToken: String,
   resetPasswordExpire: Date,

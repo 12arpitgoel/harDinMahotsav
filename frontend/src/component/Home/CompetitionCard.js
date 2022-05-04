@@ -6,11 +6,11 @@ import "./Home.css";
 const CompetitionCard = ({ competition }) => {
   
   return (
-    <div className="eventCard">
-      <img src={competition.media.url} alt={competition.name} />
-      <p>{competition.name}</p>
-      <span className="eventCardSpan">Last Submission Date:</span><span>{competition.lastSubmissionDate.split("T")[0]}</span>
-    </div>
+    <Link className="eventCard" to={`/competition/${competition._id}`}>
+        <img src={competition.media.url} alt={competition.name} />
+        <p>{competition.name}</p>
+        <span className="eventCardSpan">Last Submission Date:</span><span>{competition.lastSubmissionDate.split("T")[0]}</span>
+    </Link>
   );
 };
 
