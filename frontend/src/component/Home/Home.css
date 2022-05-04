@@ -1,5 +1,5 @@
 .banner {
-  background-image: url("../../images/cover.jfif");
+  background-image: url("../../images/cover.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -79,6 +79,7 @@
   margin: 2vmax;
   transition: all 0.5s;
   padding-bottom: 0.5vmax;
+  background-color: white;
 }
 
 .eventCard > img {

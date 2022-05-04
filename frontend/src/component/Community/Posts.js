@@ -21,9 +21,9 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LinkIcon from '@mui/icons-material/Link';
 import { Link } from 'react-router-dom';
 import CompetitionCard from './CompetitionCard';
-import { setCORS } from "google-translate-api-browser";
+
 // setting up cors-anywhere server address
-const translate = setCORS("http://cors-anywhere.herokuapp.com/");
+
 
 function Posts(props) {
   const [expandedCompetitions, setExpandedCompetitions] = React.useState(-1);
@@ -40,25 +40,25 @@ function Posts(props) {
   let trans = {}
  
 
-  useEffect(() => {
-    Object.keys(props.post).forEach(function(key) {
-    if(key=="name" || key=="description"){
+  // useEffect(() => {
+  //   Object.keys(props.post).forEach(function(key) {
+  //   if(key=="name" || key=="description"){
      
-        translate(props.post[key], { to: "en" })
-    .then(res => {
-      // I do not eat six days
-      trans[key] = res.text;
-      console.log(res.text)
-    })
-    .catch(err => {
-      console.error(err);
-    });
-    }
-    });
+  //       translate(props.post[key], { to: "en" })
+  //   .then(res => {
+     
+  //     trans[key] = res.text;
+  //     console.log(res.text)
+  //   })
+  //   .catch(err => {
+  //     console.error(err);
+  //   });
+  //   }
+  //   });
   
 
     
-  }, []);
+  // }, []);
 
   return (
     <>

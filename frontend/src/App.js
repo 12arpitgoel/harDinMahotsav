@@ -8,6 +8,7 @@ import Footer from "./component/layout/Footer/Footer";
 import Home from "./component/Home/Home";
 import Events from "./component/Event/Events";
 import EventDetails from "./component/Event/EventDetails";
+import NewEvent from "./component/Event/NewEvent";
 import LoginSignUp from "./component/User/LoginSignUp";
 import store from "./store";
 import { loadUser } from "./actions/userAction";
@@ -31,6 +32,7 @@ import About from "./component/layout/About/About";
 import Community from "./component/Community/Community";
 import NotFound from "./component/layout/Not Found/NotFound";
 import Submission from "./component/Submission/Submission";
+import Competition from "./component/Competition/Competition";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -71,8 +73,9 @@ function App() {
 
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/events" component={Events} />
-        <Route exact path="/event/:id" component={EventDetails} />
+        <ProtectedRoute exact path="/events" component={Events} />
+        <ProtectedRoute exact path="/event/:id" component={NewEvent} />
+        <ProtectedRoute exact path="/competition/:id" component={Competition} />
 
         <Route exact path="/contact" component={Contact} />
 
