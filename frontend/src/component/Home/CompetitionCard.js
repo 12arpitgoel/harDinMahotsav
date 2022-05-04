@@ -7,9 +7,9 @@ const CompetitionCard = ({ competition }) => {
   
   return (
     <Link className="eventCard" to={`/competition/${competition._id}`}>
-        <img src={competition.media.url} alt={competition.name} />
+        <img src={competition.media?.url} alt={competition.name} />
         <p>{competition.name}</p>
-        <span className="eventCardSpan">Last Submission Date:</span><span>{competition.lastSubmissionDate.split("T")[0]}</span>
+        <span className="eventCardSpan">Last Submission Date:</span><span>{competition.lastSubmissionDate?.split("T")[0]}</span>
     </Link>
   );
 };
