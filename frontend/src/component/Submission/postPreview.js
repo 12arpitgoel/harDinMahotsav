@@ -1,113 +1,66 @@
 import React from 'react'
-import { Button, Modal } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import Card from '@mui/material/Card';
+import Button from '@mui/material/Button';
+import './postPreview.css'
 import { MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBRow, MDBCol } from 'mdb-react-ui-kit';
-
+import SendIcon from '@mui/icons-material/Send';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
+
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import CommentIcon from '@mui/icons-material/Comment';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import LinkIcon from '@mui/icons-material/Link';
-import { Link } from 'react-router-dom';
-import { Col } from 'react-bootstrap';
-import CommentSection from './CommentSection';
+
+import Disscuss from './Disscuss';
 
 function PostPreview(props) {
     return (
         <>
             <Modal
                 size="lg"
+                // fullscreen={true}
                 show={props.isOpened}
                 onHide={() => props.onCloseModal()}
                 aria-labelledby="example-modal-sizes-title-lg"
+                dialogClassName="my-modal"
             >
                 <Modal.Header closeButton>
-                    {/* <Modal.Title id="example-modal-sizes-title-lg">
-                        Large Modal
-                    </Modal.Title> */}
-                    {/* <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        R
-                    </Avatar>
-                    Participant's Name
-                    <br/>
-                    <div>
-                        <small className='text-muted'>  Last updated 3 mins ago</small>
-
-                    </div> */}
-
-                    <Card sx={{ width: 1000 , minWidth: 50 }}>
+                    <Card sx={{ width: 1000, minWidth: 50 }}>
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                                     R
                                 </Avatar>
                             }
-                            // action={
-                            //   <IconButton aria-label="settings">
-                            //     <MoreVertIcon />
-                            //   </IconButton>
-                            // }
                             title="Shrimp and Chorizo Paella"
+                            shsfhsfhdfhdfhdg
                             subheader="Last updated 3 mins ago"
                         />
                     </Card>
-
                 </Modal.Header>
                 <Modal.Body>
-                    {/* <Card >
-                        <CardHeader
-                            avatar={
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    R
-                                </Avatar>
-                            }
-                            action={
-                                <IconButton aria-label="settings">
-                                    <MoreVertIcon />
-                                </IconButton>
-                            }
-                            title="Shrimp and Chorizo Paella"
-                            subheader="Heelo"
-                        />
-
-                        <CardMedia
-                            component="img"
-                            height="194"
-                            image="http://www.mashupamericans.com/wp-content/uploads/2015/11/7ThingsDiwali_111115_EDITED.jpg"
-                            alt="Paella dish"
-
-                        />
-
-                        <CardContent>
-                        </CardContent>
-                        <CardActions >
-                            <IconButton aria-label="add to favorites">
-                                <FavoriteIcon />
-                            </IconButton>
-                           
-                        </CardActions>
-                        
-                    </Card> */}
                     <MDBCard style={{ maxWidth: '100%' }}>
                         <MDBRow className='g-0'>
-                            <MDBCol  md='4'>
+                            <MDBCol style={{ display: 'flex', flexDirection: 'column', justifyContent: "space-around" }} md='6'>
                                 <MDBCardImage src='http://www.mashupamericans.com/wp-content/uploads/2015/11/7ThingsDiwali_111115_EDITED.jpg' alt='...' fluid />
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-evenly" }}>
+                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                        R
+                                    </Avatar>
+                                    <textarea placeholder='Write your Comment'></textarea>
+                                    <Button variant="contained" endIcon={<SendIcon />}>
+                                        Send
+                                    </Button>
+                                </div>
                             </MDBCol>
-                            <MDBCol md='8'>
+                            <MDBCol md="1"></MDBCol>
+                            <MDBCol md='5'>
                                 <MDBCardBody>
-                                    <CommentSection/>
+                                    {/* <CommentSection/> */}
+                                    <div style={{ height: '300px', overflowY: "scroll" }}>
+                                        <Disscuss />
+
+                                    </div>
+
                                 </MDBCardBody>
                             </MDBCol>
                         </MDBRow>

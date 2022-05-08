@@ -21,20 +21,27 @@ import LinkIcon from '@mui/icons-material/Link';
 import { Link } from 'react-router-dom';
 import { Col } from 'react-bootstrap';
 import PostPreview from './postPreview';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined';
 
 function AllSubmissions(props) {
-    const [modalIsOpen, setIsOpen] = React.useState(false);
-    function handleCloseModal(event, data) {
-        console.log(event, data);
-        setIsOpen(false);
-      }
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [isLiked, setIsLiked] = React.useState(false);
+  function handleCloseModal(event) {
+    setIsOpen(false);
+  }
+  function handleLike(e) {
+    e.preventDefault();
+    setIsOpen(!isLiked);
+  }
   return (
-      <>
-      
-      <br/>
-      <br/>
-     
-       <Card sx={{ width: 500, minWidth: 50 }}onClick={()=> setIsOpen(true)}>
+    <>
+
+      <br />
+      <br />
+
+      <Card sx={{ width: 500, minWidth: 50 }} >
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -49,48 +56,36 @@ function AllSubmissions(props) {
           title="Shrimp and Chorizo Paella"
           subheader="Heelo"
         />
-        
+
         <CardMedia
           component="img"
           height="194"
           image="http://www.mashupamericans.com/wp-content/uploads/2015/11/7ThingsDiwali_111115_EDITED.jpg"
           alt="Paella dish"
-          
+          onClick={() => setIsOpen(true)}
+
         />
-        
         <CardContent>
-          
-          
-         
         </CardContent>
         <CardActions >
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          {/* <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton> */}
-          <IconButton aria-label="comment">
-            <CommentIcon/>
-          </IconButton>
-         
-           
-         
+          <div onClick={(e) => handleLike(e)}>
+            <IconButton aria-label="add to favorites" >
+              {isLiked == false ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
+            </IconButton>
+            <small> 34</small>
+          </div>
+          <div onClick={() => setIsOpen(true)}>
+            <IconButton aria-label="comment" >
+              <InsertCommentOutlinedIcon />
+            </IconButton>
+            <small> 34</small>
+          </div>
         </CardActions>
-        {/* <Collapse in={props.index==0 } timeout="auto" unmountOnExit>
-        <CardContent>
-            <Typography paragraph>Guidelines</Typography>
-            <Typography paragraph>
-            Heelo
-            </Typography>
-          </CardContent>
-        </Collapse> */}
-        
       </Card>
       <PostPreview isOpened={modalIsOpen}
-      onCloseModal={handleCloseModal}/>
-  
-      </>
+        onCloseModal={handleCloseModal} />
+
+    </>
   )
 }
 

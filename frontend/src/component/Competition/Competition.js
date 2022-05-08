@@ -5,6 +5,7 @@ import Loader from "../layout/Loader/Loader";
 import MetaData from "../layout/MetaData";
 import "./Competition.css";
 import { getCompetitionDetails,clearErrors } from "../../actions/competitionActions";
+import Submission from "../Submission/Submission";
 
 const Competition = ({match}) => {
     const dispatch = useDispatch();
@@ -50,10 +51,13 @@ const Competition = ({match}) => {
                   <small>Competition Name:</small>
                   {competition.name}
                 </h1>
+                
               </header>
-              
-  
-              
+              <h1>
+                  All Submissions
+                </h1>
+
+              <Submission/>
               
             </Fragment>
           )}
