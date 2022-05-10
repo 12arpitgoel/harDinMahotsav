@@ -221,16 +221,3 @@ exports.getEventDetails = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Get Competion Details
-exports.getCompetionDetails = catchAsyncErrors(async (req, res, next) => {
-  const competition = await Competition.findById(req.params.id);
-
-  if (!competition) {
-    return next(new ErrorHander("Competition not found", 404));
-  }
-
-  res.status(200).json({
-    success: true,
-    competition,
-  });
-});

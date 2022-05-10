@@ -11,8 +11,8 @@ const competitionSchema = mongoose.Schema({
         required:true
     },
     guidelines: {
-            type:String,
-            required:true
+        type:String,
+        required:true
     },
     lastSubmissionDate:{
         type:Date,

@@ -5,7 +5,6 @@ const {
     getEvents,
     getEventDetails,
     getRecommended,
-    getCompetionDetails
 } = require("../controllers/eventController");
 
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
@@ -17,7 +16,6 @@ router.route("/admin/event/new").post(isAuthenticatedUser,authorizeRoles("admin"
 router.route("/events").get(isAuthenticatedUser,getEvents);
 
 router.route("/event/:id").get(isAuthenticatedUser,getEventDetails);
-router.route("/competition/:id").get(isAuthenticatedUser,getCompetionDetails);
 
 router.route("/events/recommended").get(isAuthenticatedUser,getRecommended);
 

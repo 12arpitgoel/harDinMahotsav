@@ -3,7 +3,7 @@ import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../layout/Loader/Loader";
 import MetaData from "../layout/MetaData";
-import "./Competition.css";
+// import "./Competition.css";
 import { getCompetitionDetails,clearErrors } from "../../actions/competitionActions";
 import Submission from "../Submission/Submission";
 
@@ -57,7 +57,7 @@ const Competition = ({match}) => {
                   All Submissions
                 </h1>
 
-              <Submission/>
+              <Submission competitionId={match.params.id} submissions={competition.submissions}/>
               
             </Fragment>
           )}

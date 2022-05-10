@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import CardHeader from '@mui/material/CardHeader';
@@ -24,18 +24,33 @@ import PostPreview from './postPreview';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined';
+import axios from 'axios';
+import { useAlert } from 'react-alert';
 
-function AllSubmissions(props) {
+function AllSubmissions({sub,user}) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [isLiked, setIsLiked] = React.useState(false);
+  const [submission,setSubmission]=React.useState();
+  const alert = useAlert();
   function handleCloseModal(event) {
     setIsOpen(false);
   }
-  function handleLike(e) {
+  async function handleLike(e) {
     e.preventDefault();
-    setIsOpen(!isLiked);
-  }
-  return (
+    try {
+      const res = await axios.get(`/api/v1/competition/submission/${submission._id}/like`);
+      if(res.data.success)
+        setSubmission(res.data.submission);
+    } catch (err) {
+        alert.error(err.response.data.msg);
+    }
+  };
+
+  
+  useEffect(()=>{
+    setSubmission(sub);
+  },[sub])
+
+  return submission==null?<></>: (
     <>
 
       <br />
@@ -44,46 +59,43 @@ function AllSubmissions(props) {
       <Card sx={{ width: 500, minWidth: 50 }} >
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              R
+            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" >
+              <img src={submission.user?.avatar?.url} alt="R"/>
             </Avatar>
           }
-          // action={
-          //   <IconButton aria-label="settings">
-          //     <MoreVertIcon />
-          //   </IconButton>
-          // }
-          title="Shrimp and Chorizo Paella"
-          subheader="Heelo"
+          
+          title={submission.name}
+          subheader={submission.createdAt?.split("T")[0]}
         />
 
         <CardMedia
           component="img"
           height="194"
-          image="http://www.mashupamericans.com/wp-content/uploads/2015/11/7ThingsDiwali_111115_EDITED.jpg"
+          image={submission.media?.url}
           alt="Paella dish"
           onClick={() => setIsOpen(true)}
 
         />
         <CardContent>
+          {submission.description}
         </CardContent>
         <CardActions >
           <div onClick={(e) => handleLike(e)}>
             <IconButton aria-label="add to favorites" >
-              {isLiked == false ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
+              {submission.likes?.includes(user._id) ? <ThumbUpIcon color='primary'/> : <ThumbUpOutlinedIcon />}
             </IconButton>
-            <small> 34</small>
+            <small>{submission.likes?.length}</small>
           </div>
           <div onClick={() => setIsOpen(true)}>
             <IconButton aria-label="comment" >
               <InsertCommentOutlinedIcon />
             </IconButton>
-            <small> 34</small>
+            <small> {submission.comments?.length}</small>
           </div>
         </CardActions>
       </Card>
       <PostPreview isOpened={modalIsOpen}
-        onCloseModal={handleCloseModal} />
+        onCloseModal={handleCloseModal} submission={submission} user={user}/>
 
     </>
   )

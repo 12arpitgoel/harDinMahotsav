@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import './postPreview.css'
+// import './postPreview.css'
 import { MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import SendIcon from '@mui/icons-material/Send';
 import CardHeader from '@mui/material/CardHeader';
@@ -12,14 +12,17 @@ import { red } from '@mui/material/colors';
 
 import Disscuss from './Disscuss';
 
-function PostPreview(props) {
+function PostPreview({isOpened,onCloseModal,submission,user}) {
+    
+    const [comment,setComment]=useState("");
+
     return (
         <>
             <Modal
                 size="lg"
                 // fullscreen={true}
-                show={props.isOpened}
-                onHide={() => props.onCloseModal()}
+                show={isOpened}
+                onHide={() => onCloseModal()}
                 aria-labelledby="example-modal-sizes-title-lg"
                 dialogClassName="my-modal"
             >
@@ -28,12 +31,11 @@ function PostPreview(props) {
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    R
+                                    <img src={submission.user?.avatar?.url}></img>
                                 </Avatar>
                             }
-                            title="Shrimp and Chorizo Paella"
-                            shsfhsfhdfhdfhdg
-                            subheader="Last updated 3 mins ago"
+                            title={submission.name}
+                            subheader={submission.createdAt?.split("T")[0]}
                         />
                     </Card>
                 </Modal.Header>
@@ -41,12 +43,12 @@ function PostPreview(props) {
                     <MDBCard style={{ maxWidth: '100%' }}>
                         <MDBRow className='g-0'>
                             <MDBCol style={{ display: 'flex', flexDirection: 'column', justifyContent: "space-around" }} md='6'>
-                                <MDBCardImage src='http://www.mashupamericans.com/wp-content/uploads/2015/11/7ThingsDiwali_111115_EDITED.jpg' alt='...' fluid />
+                                <MDBCardImage src={submission.media?.url} alt='...' fluid />
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-evenly" }}>
                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                        R
+                                       <img src={user.avatar?.url}></img>
                                     </Avatar>
-                                    <textarea placeholder='Write your Comment'></textarea>
+                                    <textarea placeholder='Write your Comment' value={comment} onChange={(e)=>setComment(e.target.value)}></textarea>
                                     <Button variant="contained" endIcon={<SendIcon />}>
                                         Send
                                     </Button>
@@ -57,7 +59,7 @@ function PostPreview(props) {
                                 <MDBCardBody>
                                     {/* <CommentSection/> */}
                                     <div style={{ height: '300px', overflowY: "scroll" }}>
-                                        <Disscuss />
+                                        <Disscuss comment={comment} setComment={setComment} submissionId={submission._id}/>
 
                                     </div>
 

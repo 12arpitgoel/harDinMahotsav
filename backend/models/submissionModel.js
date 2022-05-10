@@ -1,4 +1,3 @@
-const { type } = require("express/lib/response");
 const mongoose = require("mongoose");
 
 const submissionSchema = mongoose.Schema({
@@ -7,27 +6,38 @@ const submissionSchema = mongoose.Schema({
         ref: "User",
         required: true,
     },
-    medias:[
-        {
-            mediaType:{
-                type:String, //image,video
-                required:true
-            },
-            media:{
-                public_id: {
-                    type: String,
-                    required: true,
-                },
-                url: {
-                    type: String,
-                    required: true,
-                },
-            }
-        },
-    ],
-    text:{
+    name:{
         type:String,
+        required:true
     },
+    description:{
+        type:String,
+        required:true
+    },
+    media:{
+        public_id: {
+            type: String,
+            required: true,
+        },
+        url: {
+            type: String,
+            required: true,
+        },
+    },
+    comments:[
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "Comment",
+            required: true,
+        }
+    ],
+    likes:[
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "User",
+            required: true,
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now,
