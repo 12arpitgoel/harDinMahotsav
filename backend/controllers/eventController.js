@@ -6,36 +6,36 @@ const Competition = require("../models/competitionModel");
 const cloudinary = require("cloudinary");
 const ApiFeatures = require("../utils/apifeatures");
 const ContentBasedRecommender = require('content-based-recommender');
-const {translateString} =require("../utils/languageTranslate");
+const { translateString, translateEvent } = require("../utils/languageTranslate");
 
-exports.createEvent = catchAsyncErrors(async (req,res,next)=>{
-  let content="";
-  const { name, description, media, eventDate,  competitions:stringifyCompetitions } = req.body;
-  content=name+" "+description+" ";
-  let competitions = JSON.parse(stringifyCompetitions) 
+exports.createEvent = catchAsyncErrors(async (req, res, next) => {
+  let content = "";
+  const { name, description, media, eventDate, competitions: stringifyCompetitions } = req.body;
+  content = name + " " + description + " ";
+  let competitions = JSON.parse(stringifyCompetitions)
   const myCloud = await cloudinary.v2.uploader.upload(media, {
     folder: "event",
   });
 
-  let compArray=[];
+  let compArray = [];
   for (let i = 0; i < competitions.length; i++) {
     const result = await cloudinary.v2.uploader.upload(competitions[i].media, {
       folder: "event",
     });
-    competitions[i].media={
+    competitions[i].media = {
       public_id: result.public_id,
       url: result.secure_url,
       // public_id:"1234",
       // url:competitions[i].media
     };
 
-    const comp=await Competition.create({...competitions[i]});
+    const comp = await Competition.create({ ...competitions[i] });
     compArray.push(comp.id);
 
-    content += competitions[i].name+" "+competitions[i].description+" category-"+competitions[i].submissionType+" ";
-  } 
+    content += competitions[i].name + " " + competitions[i].description + " category-" + competitions[i].submissionType + " ";
+  }
 
-  content+=await translateString(content);
+  content += await translateString(content);
   const event = await Event.create({
 
     name,
@@ -45,8 +45,8 @@ exports.createEvent = catchAsyncErrors(async (req,res,next)=>{
       url: myCloud.secure_url,
     },
     eventDate,
-    competitions:compArray,
-    user:req.user.id,
+    competitions: compArray,
+    user: req.user.id,
     content
   });
 
@@ -57,13 +57,13 @@ exports.createEvent = catchAsyncErrors(async (req,res,next)=>{
 
 });
 
-exports.getEvents = catchAsyncErrors(async (req,res,next)=>{
+exports.getEvents = catchAsyncErrors(async (req, res, next) => {
   const resultPerPage = 100;
   const eventsCount = await Event.countDocuments();
 
-  const apiFeature =new ApiFeatures(Event.find().populate("competitions").populate('user'), req.query)
+  const apiFeature = new ApiFeatures(Event.find().populate("competitions").populate('user'), req.query)
     .search()
-    // .filter();
+  // .filter();
 
   let events = await apiFeature.query;
 
@@ -82,61 +82,63 @@ exports.getEvents = catchAsyncErrors(async (req,res,next)=>{
 })
 
 
-exports.getRecommended = catchAsyncErrors(async (req,res,next)=>{
+exports.getRecommended = catchAsyncErrors(async (req, res, next) => {
   const recommender = new ContentBasedRecommender({
     minScore: 0.1,
     maxSimilarDocs: 100
   })
-  
+
   const documents = await Event.aggregate([
-      {
-        $match:{
-          "content":{$ne:null}
-        }
-      },
-      { "$project": {
-        "_id":0,
+    {
+      $match: {
+        "content": { $ne: null }
+      }
+    },
+    {
+      "$project": {
+        "_id": 0,
         "id": "$_id",
         "content": "$content"
-      }}
-  ]);
-  
-  await recommender.train(documents);
-  const map =new Map();
-
-  req.user.visited.forEach(id=>{
-    let simArr=recommender.getSimilarDocuments(id, 0, 100);
-    simArr.forEach(obj=>{
-      let val=map.get(obj.id);
-      if(!val){
-        map.set(obj.id,obj.score);
       }
-      else{
-        map.set(obj.id,Math.max(val,obj.score));
+    }
+  ]);
+
+  await recommender.train(documents);
+  const map = new Map();
+
+  req.user.visited.forEach(id => {
+    let simArr = recommender.getSimilarDocuments(id, 0, 100);
+    simArr.forEach(obj => {
+      let val = map.get(obj.id);
+      if (!val) {
+        map.set(obj.id, obj.score);
+      }
+      else {
+        map.set(obj.id, Math.max(val, obj.score));
       }
     })
   })
- 
-  let ids=Array.from(map.keys());
-  let recs=await Event.aggregate([
+
+  let ids = Array.from(map.keys());
+  let recs = await Event.aggregate([
     {
-      "$match":{_id:{"$in":ids}}
+      "$match": { _id: { "$in": ids } }
     }
   ]);
-  
-  recs=recs.map(rec=>{
-    for(let id of ids){
-      if(id.toString()==rec._id.toString()){
+
+  recs = recs.map(rec => {
+    for (let id of ids) {
+      if (id.toString() == rec._id.toString()) {
         return {
           ...rec,
-          score:map.get(id)
+          score: map.get(id)
         }
       }
     }
   })
 
-  recs.sort(( a, b ) =>{
-    return b.score-a.score
+  recs.sort((a, b) => {
+    return b.score - a.score
   });
   res.status(200).json({
     success: true,
@@ -171,7 +173,7 @@ exports.getRecommended = catchAsyncErrors(async (req,res,next)=>{
 //     req.body.images = imagesLinks;
 //   }
 
-  
+
 
 //   const myCloud = await cloudinary.v2.uploader.upload(media, {
 //     folder: "event",
@@ -191,7 +193,7 @@ exports.getRecommended = catchAsyncErrors(async (req,res,next)=>{
 //   } 
 
 
-  
+
 
 //   event = await Event.findByIdAndUpdate(req.params.id, req.body, {
 //     new: true,
@@ -212,8 +214,7 @@ exports.getEventDetails = catchAsyncErrors(async (req, res, next) => {
   if (!event) {
     return next(new ErrorHander("Event not found", 404));
   }
-
-  await User.findByIdAndUpdate(req.user.id, { $addToSet : {visited : event.id } } );
+  await User.findByIdAndUpdate(req.user.id, { $addToSet: { visited: event.id } });
 
   res.status(200).json({
     success: true,
@@ -221,3 +222,47 @@ exports.getEventDetails = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+exports.getEventTranslation = catchAsyncErrors(async (req, res, next) => {
+
+  const event = await Event.findById(req.params.id).populate("competitions").populate('user');
+  // console.log(req.params.id, event)
+  if (!event) {
+    return next(new ErrorHander("Event not found", 404));
+  }
+
+
+  const arr = Object.keys(event.toJSON());
+  // console.log(arr)
+  let translatedEvent = {};
+  for (let i of arr) {
+     
+    if (i == "name" || i == "description") {
+     
+      translatedEvent[i] = "";
+      let translation = await translateString(event[i]);
+      translatedEvent[i] = translation;
+    }
+    else if (i == "competitions") {
+      translatedEvent[i] = [];
+      for (let j in event[i]) {
+        let compArr = Object.keys(event[i][j].toJSON());
+        translatedEvent[i][j] = {};
+        for (let k of compArr) {
+          translatedEvent[i][j][k] = "";
+          translatedEvent[i][j][k] = event[i][j][k];
+          if (k == "name" || k == "description" || k == "guidelines") {
+            let translation = await translateString(event[i][j][k]);
+            translatedEvent[i][j][k] = translation;
+          }
+        }
+      }
+    }
+  }
+  if (!translatedEvent) {
+    return next(new ErrorHander("TransLation Not Found", 404));
+  }
+  res.status(200).json({
+    success: true,
+    translatedEvent,
+  });
+});
