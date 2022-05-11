@@ -6,15 +6,68 @@ import Button from '@mui/material/Button';
 import { MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import SendIcon from '@mui/icons-material/Send';
 import CardHeader from '@mui/material/CardHeader';
-
+import { useAlert } from "react-alert";
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 
 import Disscuss from './Disscuss';
+import axios from 'axios';
 
 function PostPreview({isOpened,onCloseModal,submission,user}) {
     
     const [comment,setComment]=useState("");
+    const [replyingTo,setReplyingTo]=useState();
+    const [comments,setComments]=useState([]);
+    const alert =useAlert();
+    const fetchComments=async()=>{
+        try {
+            const res = await axios.get(`/api/v1/competition/submission/${submission._id}/comments`);
+            
+            if(res.data.success)
+                setComments(res.data.comments);
+        } catch (err) {
+            alert.error(err.response.data.msg);
+        }
+    }
+
+    useEffect(()=>{
+        fetchComments();
+    })
+    
+
+    const createComment=async()=>{
+        try {
+            let postId=null;
+            let repliedTo=null;
+            if(replyingTo){
+                if(replyingTo.postId){
+                    postId=replyingTo.postId;
+                    repliedTo=replyingTo.user?.name;
+                }
+                else{
+                    postId=replyingTo._id
+                }
+            }
+            const formData = new FormData();
+            formData.set("comment", comment);
+            postId && formData.set("postId", postId);
+            repliedTo && formData.set('repliedTo', repliedTo);
+            formData.set('submissionId', submission._id);
+            
+            const config = { headers: { "Content-Type": "application/json" } };
+            const res = await axios.post(`/api/v1/competition/submission/createComment`,formData,config);
+            
+            if(res.data.success){
+                fetchComments();
+                setComment("");
+                setReplyingTo(null);
+            }
+                
+        } catch (err) {
+            console.log(err);
+            alert.error(err);
+        }
+    }
 
     return (
         <>
@@ -49,17 +102,28 @@ function PostPreview({isOpened,onCloseModal,submission,user}) {
                                        <img src={user.avatar?.url}></img>
                                     </Avatar>
                                     <textarea placeholder='Write your Comment' value={comment} onChange={(e)=>setComment(e.target.value)}></textarea>
-                                    <Button variant="contained" endIcon={<SendIcon />}>
+                                    <Button variant="contained" endIcon={<SendIcon />} onClick={()=>createComment()}>
                                         Send
                                     </Button>
                                 </div>
+                                {
+                                    replyingTo && (
+                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-between",backgroundColor:"pink" ,padding:"2px 10px"}}>
+                                            <div style={{color:'blue'}}>
+                                                <b>@ {replyingTo.user?.name}</b>
+                                            </div>
+                                            <button onClick={()=>setReplyingTo(null)}>X</button>
+                                        </div>
+                                    )
+                                }
+                                
                             </MDBCol>
                             <MDBCol md="1"></MDBCol>
                             <MDBCol md='5'>
                                 <MDBCardBody>
                                     {/* <CommentSection/> */}
                                     <div style={{ height: '300px', overflowY: "scroll" }}>
-                                        <Disscuss comment={comment} setComment={setComment} submissionId={submission._id}/>
+                                        <Disscuss setReplyingTo={setReplyingTo} submissionId={submission._id} comments={comments}/>
 
                                     </div>
 

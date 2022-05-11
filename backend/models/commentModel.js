@@ -14,15 +14,20 @@ const commentSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    replies:[
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "Comment",
+            required: true,
+        }
+    ],
     postId:{
         type: mongoose.Schema.ObjectId,
         ref: "Comment",
-        required: true,
+        required:false
     },
     repliedTo:{
-        type: mongoose.Schema.ObjectId,
-        ref: "User",
-        required: true,
+        type: String,
     }
 });
 

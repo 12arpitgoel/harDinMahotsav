@@ -87,17 +87,61 @@ exports.updateLike = catchAsyncErrors(async (req, res, next) => {
 exports.getComments = catchAsyncErrors(async (req, res, next) => {
   const submission = await Submission.findById(req.params.id).populate({
     path:"comments",
-    // populate:{
-    //   path:"user"
-    // }
+    populate:[
+      {
+        path:"replies",
+        populate:{
+          path:"user"
+        }
+      },
+      {
+        path:"user"
+      }
+    ]
   });
 
   if (!submission) {
     return next(new ErrorHander("Comments not found", 404));
   }
-  console.log(submission);
+
   res.status(200).json({
     success: true,
     comments:submission.comments,
   });
+});
+
+// Create Comment
+exports.createComment = catchAsyncErrors(async (req, res, next) => {
+  const { comment, postId, repliedTo,  submissionId } = req.body;
+  
+  let obj={
+    comment,
+    repliedTo,
+    postId,
+    user:req.user.id,
+  };
+  console.log(obj)
+  
+  const comm = await Comment.create(obj);
+  
+  
+  if(!postId){
+    await Submission.updateOne(
+      { _id: submissionId },
+      { $push: { comments: comm.id } }
+    );
+  }
+  else{
+    const rep=await Comment.updateOne(
+      { _id: postId },
+      { $push: { replies: comm.id } }
+    )
+    console.log(rep);
+  }
+  res.status(200).json({
+    success: true,
+    comments:"Comment is added",
+  });
+
+  // this.getComments(req,res,next);
 });
