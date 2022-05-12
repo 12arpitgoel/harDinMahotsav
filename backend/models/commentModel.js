@@ -28,6 +28,10 @@ const commentSchema = mongoose.Schema({
     },
     repliedTo:{
         type: String,
+    },
+    toxic:{
+        type:Boolean,
+        default:false
     }
 });
 

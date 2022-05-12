@@ -7,6 +7,7 @@ const Competition = require("../models/competitionModel");
 const Comment = require("../models/commentModel");
 const cloudinary = require("cloudinary");
 const ApiFeatures = require("../utils/apifeatures");
+const { toxicityDetector } = require("../utils/toxicityDetector");
 
 // Get Competion Details
 exports.getCompetionDetails = catchAsyncErrors(async (req, res, next) => {
@@ -87,9 +88,11 @@ exports.updateLike = catchAsyncErrors(async (req, res, next) => {
 exports.getComments = catchAsyncErrors(async (req, res, next) => {
   const submission = await Submission.findById(req.params.id).populate({
     path:"comments",
+    match:{toxic:{$eq:false}},
     populate:[
       {
         path:"replies",
+        match:{toxic:{$eq:false}},
         populate:{
           path:"user"
         }
@@ -114,13 +117,14 @@ exports.getComments = catchAsyncErrors(async (req, res, next) => {
 exports.createComment = catchAsyncErrors(async (req, res, next) => {
   const { comment, postId, repliedTo,  submissionId } = req.body;
   
+  let toxic=await toxicityDetector(comment);
   let obj={
     comment,
     repliedTo,
     postId,
     user:req.user.id,
+    toxic
   };
-  console.log(obj)
   
   const comm = await Comment.create(obj);
   
@@ -136,8 +140,12 @@ exports.createComment = catchAsyncErrors(async (req, res, next) => {
       { _id: postId },
       { $push: { replies: comm.id } }
     )
-    console.log(rep);
   }
+
+  if(toxic){
+    return next(new ErrorHander("Comment maybe inappropriate, currently in review", 400));
+  }
+
   res.status(200).json({
     success: true,
     comments:"Comment is added",

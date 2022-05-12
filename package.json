@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "google-translate-api-browser": "^1.1.71",
+    "googleapis": "^100.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.5",
     "nodemailer": "^6.6.3",

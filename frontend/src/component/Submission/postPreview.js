@@ -32,7 +32,7 @@ function PostPreview({isOpened,onCloseModal,submission,user}) {
 
     useEffect(()=>{
         fetchComments();
-    })
+    },[])
     
 
     const createComment=async()=>{
@@ -64,8 +64,7 @@ function PostPreview({isOpened,onCloseModal,submission,user}) {
             }
                 
         } catch (err) {
-            console.log(err);
-            alert.error(err);
+            alert.error(err?.response?.data?.message);
         }
     }
 
