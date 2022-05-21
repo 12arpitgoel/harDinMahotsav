@@ -120,7 +120,6 @@ exports.createComment = catchAsyncErrors(async (req, res, next) => {
     postId,
     user:req.user.id,
   };
-  console.log(obj)
   
   const comm = await Comment.create(obj);
   
@@ -136,7 +135,7 @@ exports.createComment = catchAsyncErrors(async (req, res, next) => {
       { _id: postId },
       { $push: { replies: comm.id } }
     )
-    console.log(rep);
+    
   }
   res.status(200).json({
     success: true,

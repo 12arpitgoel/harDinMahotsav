@@ -81,7 +81,7 @@ function App() {
 
         <Route exact path="/about" component={About} />
 
-        <Route exact path="/community" component={Community} />
+        <ProtectedRoute exact path="/community" component={Community} />
 
         <Route exact path="/submission" component={Submission} />
 
@@ -129,7 +129,7 @@ function App() {
         />
       </Switch>
 
-      <Footer />
+      {/* <Footer /> */}
     </Router>
   );
 }

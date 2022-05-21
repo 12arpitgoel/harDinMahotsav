@@ -33,11 +33,11 @@ import {
 
 // Get All Events
 export const getEvents =
-  (keyword = "", currentPage = 1, category) =>
+  (keyword, currentPage = 1, category) =>
   async (dispatch) => {
     try {
       dispatch({ type: ALL_EVENT_REQUEST });
-
+      
       let link = `/api/v1/events?keyword=${keyword}&page=${currentPage}`;
 
       if (category) {

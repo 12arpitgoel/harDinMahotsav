@@ -21,7 +21,7 @@ body {
   }
   figure.profile-banner>img{
       height: 400px;
-      width: 1899px;
+      width: 1300px;
   }
   
   figure.profile-picture {
@@ -32,7 +32,7 @@ body {
     bottom: -50px;
     box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2), 1px 1px 4px rgba(0,0,0,0.3);
     height: 148px;
-    left: 150px;
+    left: 20px;
     position: absolute;
     width: 148px;
     z-index: 3;
@@ -42,9 +42,9 @@ body {
     bottom: 0;
     border-top: 1px solid rgba(0,0,0,0.5);
     left: 0;
-    padding: 15px 15px 15px 350px;
+    padding: 15px 15px 15px 230px;
     position: absolute;
-    right: 0;
+    right: 1900;
     z-index: 2;
     
     /* Generated Gradient */
@@ -112,21 +112,21 @@ body {
 
   
   header>h1 {
-    bottom: -50px;
+    bottom: -100px;
     color: #354B63;
     font-size: 40px;
-    left: 350px;
+    left: 550px;
     position: absolute;
     z-index: 5;
   }
 
   .description{
     text-align: center;
-    margin-top: 100px;
+    margin-top: 50px;
     padding: 50px;
     color: white;
     font-size: 30px;
-    background-image: linear-gradient(to right, black , grey);
+    background-image: linear-gradient(to right, grey , lightblue);
   }
   .description>p{
       margin-top: 10px;

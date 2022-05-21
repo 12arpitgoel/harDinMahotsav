@@ -83,8 +83,7 @@ function PostPreview({isOpened,onCloseModal,submission,user}) {
                     <Card sx={{ width: 1000, minWidth: 50 }}>
                         <CardHeader
                             avatar={
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    <img src={submission.user?.avatar?.url}></img>
+                                <Avatar sx={{ bgcolor: red[500] }} src={submission.user?.avatar?.url} aria-label="recipe">
                                 </Avatar>
                             }
                             title={submission.name}
@@ -98,8 +97,8 @@ function PostPreview({isOpened,onCloseModal,submission,user}) {
                             <MDBCol style={{ display: 'flex', flexDirection: 'column', justifyContent: "space-around" }} md='6'>
                                 <MDBCardImage src={submission.media?.url} alt='...' fluid />
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-evenly" }}>
-                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                       <img src={user.avatar?.url}></img>
+                                    <Avatar sx={{ bgcolor: red[500] }} src={user.avatar?.url}aria-label="recipe">
+                                       
                                     </Avatar>
                                     <textarea placeholder='Write your Comment' value={comment} onChange={(e)=>setComment(e.target.value)}></textarea>
                                     <Button variant="contained" endIcon={<SendIcon />} onClick={()=>createComment()}>

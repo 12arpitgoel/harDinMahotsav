@@ -100,8 +100,8 @@ function Posts(props) {
       <Card sx={{ width: 600, minWidth: 50 }}>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              R
+            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={props.post.user?.avatar?.url}>
+              
             </Avatar>
           }
           action={
@@ -119,8 +119,8 @@ function Posts(props) {
               
             </Form>
           }
-          title="Shrimp and Chorizo Paella"
-          subheader={props.post.createdAt}
+          title={props.post.user.name}
+          subheader={props.post.createdAt.split("T")[0]}
         />
 
         <CardMedia
@@ -142,7 +142,7 @@ function Posts(props) {
             <IconButton aria-label="add to favorites">
               <CalendarMonthIcon />
             </IconButton>
-            <span>Event Date : {props.post.eventDate}</span>
+            <span>Event Date : {props.post.eventDate.split("T")[0]}</span>
           </div>
           <IconButton aria-label="add to favorites">
             <LinkIcon />
@@ -151,7 +151,7 @@ function Posts(props) {
         </CardContent>
         <CardActions >
           <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
+            <FavoriteIcon color='danger'/>
           </IconButton>
           {/* <IconButton aria-label="share">
             <ShareIcon />
@@ -161,9 +161,9 @@ function Posts(props) {
           </IconButton>
 
           {props.post?.competitions?.map((competition, index) => (
-            <Button key={index} size='small' variant="contained">Competition {(index + 1)}<ExpandMore
+            <Button onClick={() => handleExpandClick(index)} key={index} size='small' variant="contained">Competition {(index + 1)}<ExpandMore
               expand={expandedCompetitions}
-              onClick={() => handleExpandClick(index)}
+              
               aria-expanded={expandedCompetitions}
               aria-label="show more"
             >
@@ -181,11 +181,6 @@ function Posts(props) {
       </Card>
       <br />
       <br />
-
-
-
-
-
     </>
   )
 }

@@ -118,6 +118,12 @@ const CreateEvent = ({ history }) => {
     setInputList(filteredInputList)
   }
   return (
+    <>
+   
+    <br/>
+    <br/>
+    <br/>
+    
     <Fragment>
       <MetaData title="Create Event" />
       <div className="dashboard">
@@ -217,6 +223,7 @@ const CreateEvent = ({ history }) => {
         </div>
       </div>
     </Fragment>
+    </>
   );
 };
 

@@ -60,11 +60,11 @@ exports.createEvent = catchAsyncErrors(async (req, res, next) => {
 exports.getEvents = catchAsyncErrors(async (req, res, next) => {
   const resultPerPage = 100;
   const eventsCount = await Event.countDocuments();
-
+  const parQuery = await Event.find().populate("competitions").populate('user')
   const apiFeature = new ApiFeatures(Event.find().populate("competitions").populate('user'), req.query)
     .search()
   // .filter();
-
+  console.log(req.query);
   let events = await apiFeature.query;
 
   let filteredEventssCount = events.length;
@@ -100,7 +100,8 @@ exports.getRecommended = catchAsyncErrors(async (req, res, next) => {
         "id": "$_id",
         "content": "$content"
       }
-    }
+    },
+    
   ]);
 
   await recommender.train(documents);
@@ -124,8 +125,16 @@ exports.getRecommended = catchAsyncErrors(async (req, res, next) => {
     {
       "$match": { _id: { "$in": ids } }
     }
+    , {
+      "$lookup":{
+        from:"user",
+        localField:"user",
+        foreignField:"_id",
+        as : "user"
+      }
+    }
   ]);
-
+  console.log(recs);
   recs = recs.map(rec => {
     for (let id of ids) {
       if (id.toString() == rec._id.toString()) {
@@ -222,6 +231,14 @@ exports.getEventDetails = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+
+
+
+// By Aniket from here onwards...
+
+
+
+
 exports.getEventTranslation = catchAsyncErrors(async (req, res, next) => {
 
   const event = await Event.findById(req.params.id).populate("competitions").populate('user');
@@ -229,7 +246,7 @@ exports.getEventTranslation = catchAsyncErrors(async (req, res, next) => {
   if (!event) {
     return next(new ErrorHander("Event not found", 404));
   }
-
+ console.log(await translateString("பொங்கல்"));
 
   const arr = Object.keys(event.toJSON());
   // console.log(arr)

@@ -53,14 +53,14 @@ function AllSubmissions({sub,user}) {
   return submission==null?<></>: (
     <>
 
-      <br />
+      
       <br />
 
       <Card sx={{ width: 500, minWidth: 50 }} >
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" >
-              <img src={submission.user?.avatar?.url} alt="R"/>
+            <Avatar sx={{ bgcolor: red[500] }} src={submission.user?.avatar?.url} aria-label="recipe" >
+              
             </Avatar>
           }
           
@@ -94,6 +94,8 @@ function AllSubmissions({sub,user}) {
           </div>
         </CardActions>
       </Card>
+      <br/>
+      
       <PostPreview isOpened={modalIsOpen}
         onCloseModal={handleCloseModal} submission={submission} user={user}/>
 

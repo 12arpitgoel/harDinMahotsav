@@ -17,6 +17,8 @@ const Submission = ({competitionId,submissions}) => {
         <NewSubmission competitionId={competitionId}/>:
         <>
           <div style={{ marginLeft: "10%" }}>
+            <br/>
+            <h1>All Submissions</h1>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               {submissions?.map((submission, index) => (
                 <Grid key={submission._id} item xs={6} sm={6}>

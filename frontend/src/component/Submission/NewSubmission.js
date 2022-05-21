@@ -67,14 +67,14 @@ const NewSubmission = ({competitionId}) => {
       };
   return (
     <div className='container mt-4'>
-        <Card>
+        <Card sx={{height:"300"}}>
         <Card.Header className='text-centered'>Your Submission</Card.Header>
         <Card.Body>
 
             <Fragment>
             {message ? <Message msg={message} /> : null}
             <form onSubmit={onSubmit}>
-                <div style={{ display: "flex", flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div style={{ display: "flex", flexDirection: 'column', justifyContent: 'space-between' , height:"250px"}}>
                 <div>
                     <SpellcheckIcon />
                     <input

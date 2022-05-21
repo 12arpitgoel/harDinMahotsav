@@ -35,6 +35,8 @@ function NewEvent({ match }) {
           <Loader />
         ) : (
           <Fragment>
+            <br/>
+            
             <MetaData title={`${event.name} -- HarDinMahotsav`} />
             <header>
               <figure class="profile-banner">
@@ -43,25 +45,30 @@ function NewEvent({ match }) {
               </figure>
               <figure
                 class="profile-picture"
-                style={{ backgroundImage: "url('http://unsplash.it/150/150')" }}
+                style={{ backgroundImage: `url("https://unsplash.it/2080/300")` }}
               ></figure>
               <div class="profile-stats">
                 <ul>
                   <li>
-                    Event Date: <span>{event.eventDate?.split("T")[0]}</span>
+                    Event Date: <span>  {event.eventDate?.split("T")[0]}</span>
                   </li>
+                  
                 </ul>
               </div>
+              
+              
+            </header>
+            <div style={{display:"flex",justifyContent:"center",color: "#354B63",fontSize: "50px",margin:"auto"}}>
               <h1>
-                <small>Event Name:</small>
+                <small></small>
                 {event.name}
               </h1>
-            </header>
+              </div>
             <div className="description">
-                Description: <p>{event.description}</p>
+                Description: <p style={{padding:'50px'}}>{event.description}</p>
             </div>
 
-            <div className="section">
+            <div className="section" style={{backgroundImage: "linear-gradient(to right, grey , lightblue)"}}>
               <div className="heading">Competitions</div>
               <div className="competitions">
               {

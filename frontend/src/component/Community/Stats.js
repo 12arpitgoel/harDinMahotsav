@@ -7,17 +7,14 @@ function stats() {
   return (
     <>
       <br />
-            <Card border="info" style={{ width: '17rem' }}>
-                <Card.Header>Stats</Card.Header>
+            <Card border="info" style={{ width: '18rem' }}>
+                <Card.Header>Upcoming Events</Card.Header>
                 <Card.Body>
-                    <Card.Title>Info Card Title</Card.Title>
                     <Card.Text>
-                        Some quick example text to build on the card title and make up the bulk
-                        of the card's content.
+                    1. 15th May 2022 : INTERNATIONAL DAY OF THE FAMILY
                     </Card.Text>
                     <Card.Text>
-                        Some quick example text to build on the card title and make up the bulk
-                        of the card's content.
+                    2. 17th May 2022 : NO TOBACCO DAY
                     </Card.Text>
                     
                 </Card.Body>

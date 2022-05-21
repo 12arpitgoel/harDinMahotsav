@@ -46,7 +46,7 @@ function CompetitionCard(props) {
           <IconButton aria-label="last-date">
             <CalendarMonthIcon />
           </IconButton>
-          <span>Last Submission Date :{props.data.lastSubmissionDate}</span>
+          <span>Last Submission Date :{props.data.lastSubmissionDate.split("T")[0]}</span>
           </div>
           <div>
           <IconButton aria-label="category">
