@@ -72,9 +72,9 @@ const Community = () => {
         <div style={{ position: "fixed", top: "27%", left: "2%" }} >
           <Card style={{ width: '18rem' }}>
             <ListGroup variant="flush">
-              <ListGroup.Item><Button variant={recommended ? "outlined" : "outlined"} onClick={(e) => handlePosts(e)}>All Events</Button></ListGroup.Item>
+              <ListGroup.Item><Button variant={recommended ? "outlined" : "contained"} onClick={(e) => handlePosts(e)}>All Events</Button></ListGroup.Item>
               <ListGroup.Item><Button variant={recommended ? "contained" : "outlined"} onClick={(e) => handleRecommendation(e)}>Recommended</Button></ListGroup.Item>
-              <ListGroup.Item><Button variant= "contained" >Favourite</Button></ListGroup.Item>
+              <ListGroup.Item><Button  >Favourite</Button></ListGroup.Item>
             </ListGroup>
           </Card>
         </div>

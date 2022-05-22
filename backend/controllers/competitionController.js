@@ -8,6 +8,7 @@ const Comment = require("../models/commentModel");
 const cloudinary = require("cloudinary");
 const ApiFeatures = require("../utils/apifeatures");
 const { toxicityDetector } = require("../utils/toxicityDetector");
+const { translateString } = require("../utils/languageTranslate");
 
 // Get Competion Details
 exports.getCompetionDetails = catchAsyncErrors(async (req, res, next) => {
@@ -152,4 +153,53 @@ exports.createComment = catchAsyncErrors(async (req, res, next) => {
   });
 
   // this.getComments(req,res,next);
+});
+exports.getSubmissionTranslation = catchAsyncErrors(async (req, res, next) => {
+
+  const submission = await Submission.findById(req.params.id);
+
+  if (!submission) {
+    return next(new ErrorHander("Event not found", 404));
+  }
+  const arr = Object.keys(submission.toJSON());
+  let translatedEvent = {};
+  for (let i of arr) {
+    if ( i == "description" ) {
+      translatedEvent[i] = "";
+      let translation = await translateString(submission[i]);
+      translatedEvent[i] = translation;
+    }
+  }
+  if (!translatedEvent) {
+    return next(new ErrorHander("TransLation Not Found", 404));
+  }
+  res.status(200).json({
+    success: true,
+    translatedEvent,
+  });
+});
+
+exports.getCompetitionTranslation = catchAsyncErrors(async (req, res, next) => {
+
+  const competition = await Competition.findById(req.params.id);
+
+  if (!competition) {
+    return next(new ErrorHander("Event not found", 404));
+  }
+  const arr = Object.keys(competition.toJSON());
+  let translatedEvent = {};
+  for (let i of arr) {
+    if (i == "name" || i == "description" || i=="guidelines") {
+      translatedEvent[i] = "";
+      let translation = await translateString(competition[i]);
+      translatedEvent[i] = translation;
+    }
+  }
+  if (!translatedEvent) {
+    return next(new ErrorHander("TransLation Not Found", 404));
+  }
+  res.status(200).json({
+    success: true,
+    translatedEvent,
+  });
 });

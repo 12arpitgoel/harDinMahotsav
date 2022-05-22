@@ -44,7 +44,6 @@ function Posts(props) {
 
   };
   function handleTranslationSwitch(e){
-    
     if(translation){
       setTranslationObj({});
       setTranslation(false);
@@ -150,9 +149,6 @@ function Posts(props) {
             <FavoriteIcon  style={{color:favorites?.includes(props.post.user._id)?"red":""}} />
           </IconButton>
           {favorites?.length}
-          <IconButton aria-label="comment"> 
-            <CommentIcon />
-          </IconButton>
 
           {props.post?.competitions?.map((competition, index) => (
             <Button onClick={() => handleExpandClick(index)} key={index} size='small' variant="contained">Competition {(index + 1)}<ExpandMore

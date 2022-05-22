@@ -5,7 +5,9 @@ const {
     newSubmission,
     updateLike,
     getComments,
-    createComment
+    createComment,
+    getSubmissionTranslation,
+    getCompetitionTranslation
 } = require("../controllers/competitionController");
 
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
@@ -16,7 +18,8 @@ router.route("/submission/:id/comments").get(isAuthenticatedUser,getComments);
 router.route("/submission/:id/like").get(isAuthenticatedUser,updateLike);
 router.route("/submission").post(isAuthenticatedUser,newSubmission);
 router.route("/:id").get(isAuthenticatedUser,getCompetionDetails);
-
+router.route("/:id/translate").get(isAuthenticatedUser,getCompetitionTranslation);
+router.route("/submission/:id/translate").get(isAuthenticatedUser,getSubmissionTranslation);
 
 
 module.exports = router;
