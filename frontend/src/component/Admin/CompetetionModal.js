@@ -12,7 +12,8 @@ const customStyles = {
     
    
     width: '50%',
-    left:'24%'
+    left:'24%',
+    top:'13%'
      //marginRight: '-50%',
     // transform: 'translate(-50%, -50%)',
   }
@@ -116,7 +117,7 @@ function CompetetionModal(props) {
               <DescriptionIcon className='icon'/>
               <textarea
               className='competitionInput'
-                placeholder="Event Description"
+                placeholder="Competetion Description"
                 name="description"
                 value={competitionData.description}
                 onChange={e => handleInputChange(e)}

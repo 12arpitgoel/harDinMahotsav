@@ -67,11 +67,11 @@ const CompetitionPreviewCard = (props) => {
          :<video style={{height:"100%",width:"100%"}} controls>
         <source src={props.data.media} type="video/mp4"/>
         </video>}
-        <MDBCardBody>
+        {/* <MDBCardBody>
           <MDBCardText style={{textAlign : "center"}}>
            {props.data.name}
           </MDBCardText>
-        </MDBCardBody>
+        </MDBCardBody> */}
       </MDBCard>
       <button style ={ { position:'absolute' , top:"10%" , right:"6%",borderRadius:"50%"}} onClick={removeCard}>X</button>
         </div>

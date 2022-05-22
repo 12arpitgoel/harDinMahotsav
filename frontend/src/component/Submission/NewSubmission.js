@@ -79,7 +79,7 @@ const NewSubmission = ({competitionId}) => {
                     <SpellcheckIcon />
                     <input
                     type="text"
-                    placeholder="Event Name"
+                    placeholder="Your Name"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}

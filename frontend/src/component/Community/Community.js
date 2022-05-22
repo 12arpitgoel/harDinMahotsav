@@ -75,7 +75,7 @@ const Community = () => {
             <ListGroup variant="flush">
               <ListGroup.Item><Button variant={recommended ? "outlined" : "contained"} onClick={(e) => handlePosts(e)}>All Events</Button></ListGroup.Item>
               <ListGroup.Item><Button variant={recommended ? "contained" : "outlined"} onClick={(e) => handleRecommendation(e)}>Recommended</Button></ListGroup.Item>
-              <ListGroup.Item><Button  >Favourite</Button></ListGroup.Item>
+              <ListGroup.Item><Button variant='outlined' >Favourite</Button></ListGroup.Item>
             </ListGroup>
           </Card>
         </div>

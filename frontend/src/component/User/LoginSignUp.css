@@ -18,6 +18,7 @@
   height: 80vh;
   box-sizing: border-box;
   overflow: hidden;
+  margin-top: 75px;
 }
 .login_signUp_toggle {
   display: flex;

@@ -38,8 +38,8 @@ const CreateEvent = ({ history }) => {
     }
 
     if (success) {
-      alert.success("Product Created Successfully");
-      // history.push("/admin/dashboard");
+      alert.success("Event Created Successfully");
+      history.push("/community");
       dispatch({ type: NEW_EVENT_RESET });
     }
   }, [dispatch, alert, error, success]);

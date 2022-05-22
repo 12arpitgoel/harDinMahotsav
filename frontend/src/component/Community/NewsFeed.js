@@ -10,7 +10,7 @@ function NewsFeed() {
                 <Card.Header>News Feed</Card.Header>
                 <Card.Body>
                     <Card.Text>
-                        1. Only 37 days left for the International Day of Yoga! #IDY2022
+                        1. Only 29 days left for the International Day of Yoga! #IDY2022
 
                         Celebrate the journey, of the self, to the self & through the self at the #YogaUtsav to be celebrated on the 21st of June, 2022.
                     </Card.Text>

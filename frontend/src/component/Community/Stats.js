@@ -11,10 +11,10 @@ function stats() {
                 <Card.Header>Upcoming Events</Card.Header>
                 <Card.Body>
                     <Card.Text>
-                    1. 15th May 2022 : INTERNATIONAL DAY OF THE FAMILY
+                    1. 2nd June 2022 : Maharana Pratap Jayanti
                     </Card.Text>
                     <Card.Text>
-                    2. 17th May 2022 : NO TOBACCO DAY
+                    2. 5th June 2022 : World Environment Day
                     </Card.Text>
                     
                 </Card.Body>
