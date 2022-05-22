@@ -16,6 +16,8 @@ const Community = () => {
   const dispatch = useDispatch();
   const [recommended, setRecommended] = React.useState(false);
   const [recommendedArr, setRecommendedArr] = React.useState([]);
+  const [favourite , setFavourite] = React.useState(false);
+  const [favouriteArr, setFavouriteArr] = React.useState([]);
   const [searchedWord , setSearchedWord] = React.useState("");
   const alert = useAlert();
   const {
@@ -40,16 +42,33 @@ const Community = () => {
   async function handleRecommendation(e) {
 
     try {
-      const config = {
-        headers: { "Content-Type": "application/json" },
-      };
-
       const { data } = await axios.get(
         `/api/v1/events/recommended`,
       );
       if (data.success) {
-        setRecommended(true);
         setRecommendedArr(data.recs);
+        setFavourite(false);
+        setRecommended(true);
+        
+      }
+
+    } catch (err) {
+      console.log(err)
+      alert.error(err.response.data.message);
+    }
+
+  };
+  async function handleFavourites(e) {
+
+    try {
+      const { data } = await axios.get(
+        `/api/v1/events/favourite`,
+      );
+      if (data.success) {
+        setFavourite(true);
+        setFavouriteArr(data.events)
+        setRecommended(false);
+        
       }
 
     } catch (err) {
@@ -63,8 +82,8 @@ const Community = () => {
   }
 
   function handlePosts(e) {
+    setFavourite(false);
     setRecommended(false);
-    setRecommendedArr([]);
   }
 
   return (
@@ -75,7 +94,7 @@ const Community = () => {
             <ListGroup variant="flush">
               <ListGroup.Item><Button variant={recommended ? "outlined" : "contained"} onClick={(e) => handlePosts(e)}>All Events</Button></ListGroup.Item>
               <ListGroup.Item><Button variant={recommended ? "contained" : "outlined"} onClick={(e) => handleRecommendation(e)}>Recommended</Button></ListGroup.Item>
-              <ListGroup.Item><Button  >Favourite</Button></ListGroup.Item>
+              <ListGroup.Item><Button variant={favourite ? "conatained":"outlined"} onClick={(e) => handleFavourites(e)}>Favourite</Button></ListGroup.Item>
             </ListGroup>
           </Card>
         </div>
@@ -118,7 +137,11 @@ const Community = () => {
           {
             recommended ? recommendedArr.length > 0 ? recommendedArr.map((event, index) => (
               <Posts key={index} post={event} />
-            )) : <></> :
+            )) : <></> : favourite ? favouriteArr?.map((event, index) => (
+
+              <Posts key={index} post={event} user={user}/>
+
+            )) :
               events?.map((event, index) => (
 
                 <Posts key={index} post={event} user={user}/>

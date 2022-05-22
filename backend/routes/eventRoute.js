@@ -6,7 +6,8 @@ const {
     getEventDetails,
     getRecommended,
     getEventTranslation,
-    updateFavorite
+    updateFavorite,
+    getFavourites,
 } = require("../controllers/eventController");
 
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
@@ -22,5 +23,6 @@ router.route("/event/:id/favorite").get(isAuthenticatedUser,updateFavorite);
 
 
 router.route("/events/recommended").get(isAuthenticatedUser,getRecommended);
+router.route("/events/favourite").get(isAuthenticatedUser,getFavourites);
 
 module.exports = router;

@@ -146,7 +146,7 @@ function Posts(props) {
         </CardContent>
         <CardActions >
           <IconButton aria-label="add to favorites" onClick={handleFavorite}>
-            <FavoriteIcon  style={{color:favorites?.includes(props.user._id)?"red":""}} />
+            <FavoriteIcon  style={{color:favorites?.includes(props.user?._id)?"red":""}} />
           </IconButton>
           {favorites?.length}
 

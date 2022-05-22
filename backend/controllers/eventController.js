@@ -314,3 +314,29 @@ exports.getEventTranslation = catchAsyncErrors(async (req, res, next) => {
     translatedEvent,
   });
 });
+
+exports.getFavourites = catchAsyncErrors(async (req, res, next) => {
+  const resultPerPage = 100;
+  const eventsCount = await Event.countDocuments();
+  const parQuery = await Event.find({favorites:"622f2436c0f7e656b0c0229b"});
+  console.log(parQuery);
+  const apiFeature = new ApiFeatures(Event.find({favorites:req.user.id}).populate("competitions").populate('user').sort({"eventDate":-1}), req.query)
+    .search()
+  // .filter();
+  let events = await apiFeature.query;
+
+  console.log(events);
+
+  let filteredEventssCount = events.length;
+
+  apiFeature.pagination(resultPerPage);
+
+  events = await apiFeature.query;
+  res.status(200).json({
+    success: true,
+    events,
+    eventsCount,
+    resultPerPage,
+    filteredEventssCount,
+  });
+})
