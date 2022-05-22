@@ -26,6 +26,7 @@ const Community = () => {
     resultPerPage,
     filteredEventsCount,
   } = useSelector((state) => state.events);
+  const {  isAuthenticated, user } = useSelector((state) => state.user);
   useEffect(() => {
     if (error) {
       console.log(error);
@@ -120,7 +121,7 @@ const Community = () => {
             )) : <></> :
               events?.map((event, index) => (
 
-                <Posts key={index} post={event} />
+                <Posts key={index} post={event} user={user}/>
 
               ))
           }
