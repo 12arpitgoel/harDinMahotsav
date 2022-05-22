@@ -53,7 +53,7 @@ const Community = () => {
 
     } catch (err) {
       console.log(err)
-      alert.error(err.response.data.msg);
+      alert.error(err.response.data.message);
     }
 
   };

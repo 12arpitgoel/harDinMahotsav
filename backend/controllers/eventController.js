@@ -7,6 +7,7 @@ const cloudinary = require("cloudinary");
 const ApiFeatures = require("../utils/apifeatures");
 const ContentBasedRecommender = require('content-based-recommender');
 const { translateString, translateEvent } = require("../utils/languageTranslate");
+const mongoose = require("mongoose");
 
 exports.createEvent = catchAsyncErrors(async (req, res, next) => {
   let content = "";
@@ -61,10 +62,9 @@ exports.getEvents = catchAsyncErrors(async (req, res, next) => {
   const resultPerPage = 100;
   const eventsCount = await Event.countDocuments();
   const parQuery = await Event.find().populate("competitions").populate('user')
-  const apiFeature = new ApiFeatures(Event.find().populate("competitions").populate('user'), req.query)
+  const apiFeature = new ApiFeatures(Event.find().populate("competitions").populate('user').sort({"eventDate":-1}), req.query)
     .search()
   // .filter();
-  console.log(req.query);
   let events = await apiFeature.query;
 
   let filteredEventssCount = events.length;
@@ -124,17 +124,22 @@ exports.getRecommended = catchAsyncErrors(async (req, res, next) => {
   let recs = await Event.aggregate([
     {
       "$match": { _id: { "$in": ids } }
-    }
-    , {
+    },
+    {
       "$lookup":{
-        from:"user",
+        from:"users",
         localField:"user",
         foreignField:"_id",
         as : "user"
       }
-    }
+    },
+    { "$addFields": {
+      "user": {
+          "$arrayElemAt": [ "$user", 0 ]
+      }
+  }}
   ]);
-  console.log(recs);
+
   recs = recs.map(rec => {
     for (let id of ids) {
       if (id.toString() == rec._id.toString()) {
@@ -232,6 +237,33 @@ exports.getEventDetails = catchAsyncErrors(async (req, res, next) => {
 });
 
 
+// update favorite
+exports.updateFavorite = catchAsyncErrors(async (req, res, next) => {
+  const userId=req.user.id;
+  const event=await Event.findOneAndUpdate(
+    {_id:req.params.id},
+    [
+      { 
+        $set: { 
+            favorites: { 
+                $cond: [ { $in: [ userId, "$favorites" ] }, 
+                        { $setDifference: [ "$favorites", [ userId ] ] }, 
+                        { $concatArrays: [ "$favorites", [ userId ] ] } 
+                ] 
+            }
+        }
+      }
+   ],
+   { new: true }
+  )
+   console.log(event);
+  res.status(200).json({
+    success: true,
+    event,
+  });
+});
+
+
 
 
 // By Aniket from here onwards...
@@ -246,7 +278,6 @@ exports.getEventTranslation = catchAsyncErrors(async (req, res, next) => {
   if (!event) {
     return next(new ErrorHander("Event not found", 404));
   }
- console.log(await translateString("பொங்கல்"));
 
   const arr = Object.keys(event.toJSON());
   // console.log(arr)

@@ -25,6 +25,13 @@ const eventSchema = mongoose.Schema({
     type: Date,
     required:true
   },
+  favorites:[
+      {
+          type: mongoose.Schema.ObjectId,
+          ref: "User",
+          required: true,
+      }
+  ],
   competitions:[
     {
         type: mongoose.Schema.ObjectId,

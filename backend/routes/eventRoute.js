@@ -6,6 +6,7 @@ const {
     getEventDetails,
     getRecommended,
     getEventTranslation,
+    updateFavorite
 } = require("../controllers/eventController");
 
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
@@ -16,9 +17,8 @@ router.route("/admin/event/new").post(isAuthenticatedUser,authorizeRoles("admin"
 
 router.route("/events").get(isAuthenticatedUser,getEvents);
 router.route("/event/:id/translate").get(isAuthenticatedUser,getEventTranslation);
-
 router.route("/event/:id").get(isAuthenticatedUser,getEventDetails);
-
+router.route("/event/:id/favorite").get(isAuthenticatedUser,updateFavorite);
 
 
 router.route("/events/recommended").get(isAuthenticatedUser,getRecommended);

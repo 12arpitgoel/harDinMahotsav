@@ -41,7 +41,7 @@ function AllSubmissions({sub,user}) {
       if(res.data.success)
         setSubmission(res.data.submission);
     } catch (err) {
-        alert.error(err.response.data.msg);
+        alert.error(err.response.data.message);
     }
   };
 

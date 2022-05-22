@@ -69,30 +69,26 @@ function Posts(props) {
 
     } catch (err) {
       console.log(err)
-      alert.error(err.response.data.msg);
+      alert.error(err.response.data.message);
     }
   };
 
 
-  // useEffect(() => {
-  //   Object.keys(props.post).forEach(function(key) {
-  //   if(key=="name" || key=="description"){
-
-  //       translate(props.post[key], { to: "en" })
-  //   .then(res => {
-
-  //     trans[key] = res.text;
-  //     console.log(res.text)
-  //   })
-  //   .catch(err => {
-  //     console.error(err);
-  //   });
-  //   }
-  //   });
-
-
-
-  // }, []);
+  async function handleFavorite(e) {
+    e.preventDefault();
+    try {
+      const res = await axios.get(`/api/v1/event/${props.post._id}/favorite`);
+      if(res.data.success)
+        setFavorites(res.data.event.favorites);
+    } catch (err) {
+        alert.error(err.response.data.message);
+    }
+  };
+  const [favorites,setFavorites]=React.useState([]);
+  
+  useEffect(()=>{
+    setFavorites(props.post.favorites);
+  },[props.post])
 
   return (
     <>
@@ -150,13 +146,11 @@ function Posts(props) {
           <Link style={{ textDecoration: "none" }} to={`/event/${props.post._id}`}><span>Go To Event's Page.</span></Link>
         </CardContent>
         <CardActions >
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon color='danger'/>
+          <IconButton aria-label="add to favorites" onClick={handleFavorite}>
+            <FavoriteIcon  style={{color:favorites?.includes(props.post.user._id)?"red":""}} />
           </IconButton>
-          {/* <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton> */}
-          <IconButton aria-label="comment">
+          {favorites?.length}
+          <IconButton aria-label="comment"> 
             <CommentIcon />
           </IconButton>
 
