@@ -26,10 +26,13 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined';
 import axios from 'axios';
 import { useAlert } from 'react-alert';
+import Form from 'react-bootstrap/Form'
 
 function AllSubmissions({sub,user}) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [submission,setSubmission]=React.useState();
+  const [translationObj, setTranslationObj] = React.useState({});
+  const [translation, setTranslation] = React.useState(false);
   const alert = useAlert();
   function handleCloseModal(event) {
     setIsOpen(false);
@@ -42,6 +45,34 @@ function AllSubmissions({sub,user}) {
         setSubmission(res.data.submission);
     } catch (err) {
         alert.error(err.response.data.msg);
+    }
+  };
+  function handleTranslationSwitch(e){
+    if(translation){
+      setTranslationObj({});
+      setTranslation(false);
+    }else{
+      handleTranslation(e);
+    }
+  }
+  async function handleTranslation(e) {
+    
+    try {
+      const config = {
+        headers: { "Content-Type": "application/json" },
+      };
+
+      const { data } = await axios.get(
+        `/api/v1/competition/submission/${submission._id}/translate`,
+      );
+      if (data.success) {
+        setTranslation(true);
+        setTranslationObj(data);
+      }
+
+    } catch (err) {
+      console.log(err)
+      alert.error(err.response.data.msg);
     }
   };
 
@@ -63,7 +94,16 @@ function AllSubmissions({sub,user}) {
               
             </Avatar>
           }
-          
+          action={
+            <Form>
+              <Form.Check
+                type="switch"
+                id="custom-switch"
+                label={translation==true?"Back to Original":"Translate To English"}
+                onChange={(e)=>handleTranslationSwitch(e)}
+              />
+              
+            </Form>}
           title={submission.name}
           subheader={submission.createdAt?.split("T")[0]}
         />
@@ -77,7 +117,7 @@ function AllSubmissions({sub,user}) {
 
         />
         <CardContent>
-          {submission.description}
+          {Object.keys(translationObj).length != 0 ? translationObj.translatedEvent.description :submission.description}
         </CardContent>
         <CardActions >
           <div onClick={(e) => handleLike(e)}>

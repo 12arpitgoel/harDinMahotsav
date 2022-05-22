@@ -44,7 +44,6 @@ function Posts(props) {
 
   };
   function handleTranslationSwitch(e){
-    
     if(translation){
       setTranslationObj({});
       setTranslation(false);
@@ -156,9 +155,9 @@ function Posts(props) {
           {/* <IconButton aria-label="share">
             <ShareIcon />
           </IconButton> */}
-          <IconButton aria-label="comment">
+          {/* <IconButton aria-label="comment">
             <CommentIcon />
-          </IconButton>
+          </IconButton> */}
 
           {props.post?.competitions?.map((competition, index) => (
             <Button onClick={() => handleExpandClick(index)} key={index} size='small' variant="contained">Competition {(index + 1)}<ExpandMore

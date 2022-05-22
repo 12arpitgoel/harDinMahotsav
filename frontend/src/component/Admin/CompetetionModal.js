@@ -23,8 +23,8 @@ function CompetetionModal(props) {
   const [category, setCategory] = useState("");
   const categories = [
     "Video",
-    "Images",
-    "Text"
+    "Images"
+   
   ];
   const createImagesChange = (e) => {
     const files = Array.from(e.target.files);

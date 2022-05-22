@@ -69,7 +69,7 @@ function CompetitionCard(props) {
           <CardContent>
             <Typography paragraph>Guidelines</Typography>
             <Typography paragraph>
-             {props.data.guidelines[0]}
+             {props.data.guidelines}
             </Typography>
           </CardContent>
           </Collapse>

@@ -33,6 +33,7 @@ import Community from "./component/Community/Community";
 import NotFound from "./component/layout/Not Found/NotFound";
 import Submission from "./component/Submission/Submission";
 import Competition from "./component/Competition/Competition";
+import AdminToxic from "./component/ToxicCommentAdmin/AdminToxic";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -62,7 +63,8 @@ function App() {
   return (
     <Router>
       <Header />
-
+      <br/>
+      <br/>
       {isAuthenticated && <UserOptions user={user} />}
       {/* 
       {stripeApiKey && (
@@ -84,6 +86,9 @@ function App() {
         <ProtectedRoute exact path="/community" component={Community} />
 
         <Route exact path="/submission" component={Submission} />
+
+        <Route exact path="/toxicComment" component={AdminToxic} />
+
 
         <ProtectedRoute exact path="/account" component={Profile} />
 
