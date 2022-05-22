@@ -33,7 +33,7 @@ import Community from "./component/Community/Community";
 import NotFound from "./component/layout/Not Found/NotFound";
 import Submission from "./component/Submission/Submission";
 import Competition from "./component/Competition/Competition";
-import AdminToxic from "./component/ToxicCommentAdmin/AdminToxic";
+import AdminToxic from "./component/Admin/AdminToxic";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -87,7 +87,7 @@ function App() {
 
         <Route exact path="/submission" component={Submission} />
 
-        <Route exact path="/toxicComment" component={AdminToxic} />
+        <ProtectedRoute isAdmin={true} exact path="/admin/toxicComment" component={AdminToxic} />
 
 
         <ProtectedRoute exact path="/account" component={Profile} />

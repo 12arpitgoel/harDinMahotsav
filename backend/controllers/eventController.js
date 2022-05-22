@@ -2,6 +2,7 @@ const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const User = require("../models/userModel");
 const Event = require("../models/eventModel");
+const Comment = require("../models/commentModel");
 const Competition = require("../models/competitionModel");
 const cloudinary = require("cloudinary");
 const ApiFeatures = require("../utils/apifeatures");
@@ -262,6 +263,23 @@ exports.updateFavorite = catchAsyncErrors(async (req, res, next) => {
     event,
   });
 });
+
+// Get Admin Toxic Comments
+exports.getToxicComments = catchAsyncErrors(async (req, res, next) => {
+  
+  const comments=await Comment.find({"toxic":{$eq:true}}).populate("user");
+
+
+  if (!comments) {
+    return next(new ErrorHander("Comments not found", 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    comments,
+  });
+});
+
 
 
 

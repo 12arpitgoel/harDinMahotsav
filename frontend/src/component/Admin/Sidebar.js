@@ -50,12 +50,16 @@ const Sidebar = () => {
           </p>
         </Link>
       }
-      <Link to="/organization/reviews">
-        <p>
-          <RateReviewIcon />
-          Reviews
-        </p>
-      </Link>
+      {
+        user && user.role=="admin" &&
+      
+        <Link to="/admin/toxicComment">
+          <p>
+          <RateReviewIcon /> Toxic Comments
+          </p>
+        </Link>
+      }
+     
     </div>
   );
 };
